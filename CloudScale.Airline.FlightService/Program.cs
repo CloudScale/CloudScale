@@ -1,11 +1,9 @@
 ﻿using Autofac;
 using System.Collections.Generic;
 using System.Linq;
-using Topshelf.Autofac;
 using System;
-using Topshelf;
-using Nimbus;
 using Serilog;
+using System.Threading;
 
 namespace CloudScale.Airline.FlightService
 {
@@ -25,28 +23,10 @@ namespace CloudScale.Airline.FlightService
 
             var container = builder.Build();
 
-            //object newVariable = s =>
-            //                {
-            //                    // Let Topshelf use it
-            //                    s.ConstructUsingAutofacContainer();
-            //                    s.WhenStarted((service, control) => service.Start());
-            //                    s.WhenStopped((service, control) => service.Stop());
-            //                };
+            FlightService service = container.Resolve<FlightService>();
+            service.Start();
 
-            HostFactory.Run(c =>
-            {
-                c.UseAutofacContainer(container);
-
-                c.Service<FlightService>(s =>
-                {
-                    s.ConstructUsingAutofacContainer();
-                    s.WhenStarted(t => t.Start());
-                    s.WhenStopped(t => t.Stop());
-                });
-
-                c.RunAsLocalSystem();
-                c.StartAutomatically();
-            });
+            Thread.Sleep(Timeout.Infinite);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Raven.Client;
 using Raven.Client.Document;
-using Raven.Client.Embedded;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +13,18 @@ namespace CloudScale.Airline.FlightService.AutofacModules
         {
             base.Load(builder);
 
-            builder.Register(x =>
-                {
-                    var store = new EmbeddableDocumentStore
-                    {
-                        DataDirectory = "Data",
-                        UseEmbeddedHttpServer = true
-                    };
-                    store.Initialize();
-                    return store;
-                })
-                .As<IDocumentStore>()
-                .SingleInstance();
+            //builder.Register(x =>
+            //    {
+            //        var store = new EmbeddableDocumentStore
+            //        {
+            //            DataDirectory = "Data",
+            //            UseEmbeddedHttpServer = true
+            //        };
+            //        store.Initialize();
+            //        return store;
+            //    })
+            //    .As<IDocumentStore>()
+            //    .SingleInstance();
 
             builder.Register(x => x.Resolve<IDocumentStore>().OpenSession())
                  .As<IDocumentSession>()

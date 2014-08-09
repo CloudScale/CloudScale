@@ -22,7 +22,7 @@ namespace CloudScale.Movies.DataService
         IDbSet<MovieLookupResults> MovieLookupResults { get; set; }
         IDbSet<Movie> Movies { get; set; }
 
-        DbChangeTracker ChangeTracker {get;}
+        DbChangeTracker ChangeTracker { get; }
 
         int SaveChanges();
 

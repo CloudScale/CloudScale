@@ -12,15 +12,16 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using CloudScale.Movies.Models;
+using Microsoft.WindowsAzure;
 
 namespace CloudScale.Movies.DataService
 {
     public class MoviesDataContext : DbContext, IMoviesDataContext
     {
         public MoviesDataContext()
-            : base("MoviesDataContext")
+            : base(CloudConfigurationManager.GetSetting("MoviesDataContext"))
         {
-            
+
         }
 
         public virtual IDbSet<Movie> Movies { get; set; }

@@ -35,7 +35,7 @@ namespace CloudScale.Movies.DataService
         {
             // Set the maximum number of concurrent connections 
             ServicePointManager.DefaultConnectionLimit = 12;
-
+            
             Log.Logger = new LoggerConfiguration()
                                     .WriteTo.ColoredConsole()
                                     .WriteTo.Trace()

@@ -21,7 +21,6 @@
     <Sites>
       <Site name="Web">
         <Bindings>
-          <Binding name="Endpoint1" endpointName="Endpoint1" />
           <Binding name="HTTP" endpointName="HTTP" />
         </Bindings>
       </Site>
@@ -40,12 +39,12 @@
     <Sites>
       <Site name="Web">
         <Bindings>
-          <Binding name="Endpoint1" endpointName="Endpoint1" />
+          <Binding name="HTTP" endpointName="HTTP" />
         </Bindings>
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="Endpoint1" protocol="http" port="8082" />
+      <InputEndpoint name="HTTP" protocol="http" port="8082" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
@@ -58,12 +57,12 @@
     <Sites>
       <Site name="Web">
         <Bindings>
-          <Binding name="Endpoint1" endpointName="Endpoint1" />
+          <Binding name="HTTP" endpointName="HTTP" />
         </Bindings>
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="Endpoint1" protocol="http" port="80" />
+      <InputEndpoint name="HTTP" protocol="http" port="80" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />

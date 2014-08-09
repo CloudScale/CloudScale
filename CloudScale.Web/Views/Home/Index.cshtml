@@ -1,9 +1,10 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 
-    var webHost = System.Web.Configuration.WebConfigurationManager.AppSettings["WebHost"];
-    var apiHost = System.Web.Configuration.WebConfigurationManager.AppSettings["ApiHost"];
-    var signalrHost = System.Web.Configuration.WebConfigurationManager.AppSettings["SignalRHost"];
+
+    var webHost = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("WebHost");
+    var apiHost = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("ApiHost");
+    var signalrHost = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("SignalRHost");
 }
 
 @section scripts

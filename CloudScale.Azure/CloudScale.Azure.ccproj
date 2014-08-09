@@ -38,6 +38,14 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CloudScale.Api\CloudScale.Api.csproj">
+      <Name>CloudScale.Api</Name>
+      <Project>{5412f3a5-89ee-43b4-b671-8c0f82a4c53a}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>CloudScale.Api</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\CloudScale.Movies.DataService\CloudScale.Movies.DataService.csproj">
       <Name>CloudScale.Movies.DataService</Name>
       <Project>{db3b9fc5-b96a-448a-bc30-1d2da71300ad}</Project>
@@ -54,16 +62,44 @@
       <RoleName>CloudScale.Movies.LookupService</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+    <ProjectReference Include="..\CloudScale.SignalR\CloudScale.SignalR.csproj">
+      <Name>CloudScale.SignalR</Name>
+      <Project>{5a9358ce-6cde-4df5-b77a-f26d67ed9229}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>CloudScale.SignalR</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudScale.Web\CloudScale.Web.csproj">
+      <Name>CloudScale.Web</Name>
+      <Project>{1bc6f853-ed36-45a0-a703-fb6cec29e093}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>CloudScale.Web</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CloudScale.ApiContent\" />
     <Folder Include="CloudScale.Movies.DataServiceContent\" />
     <Folder Include="CloudScale.Movies.LookupServiceContent\" />
+    <Folder Include="CloudScale.SignalRContent\" />
+    <Folder Include="CloudScale.WebContent\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CloudScale.ApiContent\diagnostics.wadcfg">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="CloudScale.Movies.DataServiceContent\diagnostics.wadcfg">
       <SubType>Content</SubType>
     </Content>
     <Content Include="CloudScale.Movies.LookupServiceContent\diagnostics.wadcfg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CloudScale.SignalRContent\diagnostics.wadcfg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CloudScale.WebContent\diagnostics.wadcfg">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>

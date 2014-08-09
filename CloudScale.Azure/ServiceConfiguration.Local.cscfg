@@ -4,7 +4,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
       <Setting name="MoviesDataContext" value="Data Source=(local);Initial Catalog=CloudScaleMovies;Integrated Security=True" />
     </ConfigurationSettings>
   </Role>
@@ -12,31 +12,31 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
     </ConfigurationSettings>
   </Role>
   <Role name="CloudScale.Api">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
     </ConfigurationSettings>
   </Role>
   <Role name="CloudScale.SignalR">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
     </ConfigurationSettings>
   </Role>
   <Role name="CloudScale.Web">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="WebHost" value="http://localhost:1105" />
-      <Setting name="ApiHost" value="http://localhost:1138" />
-      <Setting name="SignalRHost" value="http://localhost:15865" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
+      <Setting name="WebHost" value="http://127.0.0.1:81" />
+      <Setting name="ApiHost" value="http://127.0.0.1:8081" />
+      <Setting name="SignalRHost" value="http://127.0.0.1:8082" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

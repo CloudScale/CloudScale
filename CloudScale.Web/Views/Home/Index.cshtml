@@ -1,7 +1,81 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+
+    var webHost = System.Web.Configuration.WebConfigurationManager.AppSettings["WebHost"];
+    var apiHost = System.Web.Configuration.WebConfigurationManager.AppSettings["ApiHost"];
+    var signalrHost = System.Web.Configuration.WebConfigurationManager.AppSettings["SignalRHost"];
 }
 
-<div class="body-content">
-    <div class="row"></div>
+@section scripts
+{
+    <script src="@signalrHost/scripts/jquery.signalR-2.1.1.min.js"></script>
+    <script src="@signalrHost/signalr/hubs"></script>
+
+    <script src="~/ViewModels/MainViewModel.js"></script>
+    <script type="text/javascript">
+        (function () {
+            var viewModel = new CloudScale.MainViewModel('@apiHost');
+
+            ko.applyBindings(viewModel);
+
+            PNotify.prototype.options.styling = "bootstrap3";
+
+            viewModel.Initialize();
+
+            // set up SignalR
+            $.connection.hub.url = "@signalrHost/signalr";
+
+            var hub = $.connection.movieHub;
+
+            hub.client.Ping = function () {
+                new PNotify({
+                    text: 'ping... pong...',
+                    nonblock: {
+                        nonblock: true, 
+                        nonblock_opacity: .2
+                    }
+                });
+            }
+
+            hub.client.Notify = function (message) {
+                new PNotify({
+                    text: message,
+                    nonblock: {
+                        nonblock: true,
+                        nonblock_opacity: .2
+                    },
+                    history: {
+                        maxonscreen: 5
+                    }
+                });
+            }
+
+            $.connection.hub.logging = false;
+            $.connection.hub.start().done(function () {
+                // do stuff ?  register session id?
+            });
+        })();
+    </script>
+}
+
+<div class="container">
+    <h1>Movies</h1>
+</div>
+
+<div class="container">
+    <ul data-bind="foreach: Movies">
+        <li data-bind="text: name"></li>
+    </ul>
+</div>
+
+<div class="form-group">
+    <label>Search Movies</label>
+    <input type="text" data-bind="value: SearchString, valueUpdate: 'afterkeydown'" />
+    <input type="button" data-bind="enable: SearchString, click: SearchMovie" value="Search" />
+</div>
+
+<div class="form-group">
+    <label>Add Movie</label>
+    <input type="text" data-bind="value: AddString, valueUpdate: 'afterkeydown'" />
+    <input type="button" data-bind="enable: AddString, click: AddMovie" value="Add" />
 </div>

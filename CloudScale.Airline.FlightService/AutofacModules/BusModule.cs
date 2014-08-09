@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using Nimbus.Logger.Serilog;
 
-namespace CloudScale.Airline.FlightService
+namespace AutofacModules
 {
     public class BusModule : Module
     {

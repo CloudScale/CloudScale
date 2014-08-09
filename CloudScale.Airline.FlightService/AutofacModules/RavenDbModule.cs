@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Raven.Client;
-using Raven.Client.Document;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,22 +24,22 @@ namespace CloudScale.Airline.FlightService.AutofacModules
             //    .As<IDocumentStore>()
             //    .SingleInstance();
 
-            builder.Register(x => x.Resolve<IDocumentStore>().OpenSession())
-                 .As<IDocumentSession>()
-                 .OnActivating(x =>
-                 {
-                     Serilog.Log.Information("OnActivating()");
-                 })
-                 .OnRelease(x =>
-                 {
-                     Serilog.Log.Information("OnRelease()");
+            //builder.Register(x => x.Resolve<IDocumentStore>().OpenSession())
+            //     .As<IDocumentSession>()
+            //     .OnActivating(x =>
+            //     {
+            //         Serilog.Log.Information("OnActivating()");
+            //     })
+            //     .OnRelease(x =>
+            //     {
+            //         Serilog.Log.Information("OnRelease()");
 
-                     // When the scope is released, save changes
-                     //  before disposing the session.
-                     x.SaveChanges();
-                     x.Dispose();
-                 })
-                 .InstancePerLifetimeScope();
+            //         // When the scope is released, save changes
+            //         //  before disposing the session.
+            //         x.SaveChanges();
+            //         x.Dispose();
+            //     })
+            //     .InstancePerLifetimeScope();
         }
     }
 }

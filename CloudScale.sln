@@ -22,10 +22,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AC9F2C
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source Data", "Source Data", "{E7DF7DD7-BCBE-431C-9895-F9A1F84CA756}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".data", ".data", "{E7DF7DD7-BCBE-431C-9895-F9A1F84CA756}"
 	ProjectSection(SolutionItems) = preProject
 		MoviesForThomas.txt = MoviesForThomas.txt
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Airline", "Airline", "{78A99CA9-CC8D-4567-8707-5791AC64C220}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Movies", "Movies", "{28706720-65E7-4109-906E-51F856D796EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.Movies.Messages", "CloudScale.Movies.Messages\CloudScale.Movies.Messages.csproj", "{47F5361C-E192-4505-94FA-C663FBC7E158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.Movies.Models", "CloudScale.Movies.Models\CloudScale.Movies.Models.csproj", "{3524FC19-AF05-46B3-BF7E-9D72CA02A183}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "CloudScale.Azure", "CloudScale.Azure\CloudScale.Azure.ccproj", "{8FCF8592-9951-4A6A-A271-48ABF300510F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.Movies.DataService", "CloudScale.Movies.DataService\CloudScale.Movies.DataService.csproj", "{DB3B9FC5-B96A-448A-BC30-1D2DA71300AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.Movies.LookupService", "CloudScale.Movies.LookupService\CloudScale.Movies.LookupService.csproj", "{DF3E931D-2863-43C8-B229-6BFD402757F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".automation", ".automation", "{3C9B10ED-6AE2-415A-8FDE-F011B7BC9E29}"
+	ProjectSection(SolutionItems) = preProject
+		install.ps1 = install.ps1
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.Movies.Simulator", "CloudScale.Movies.Simulator\CloudScale.Movies.Simulator.csproj", "{19B87DC8-AB09-43AD-AA4F-B420009BC920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.SignalR", "CloudScale.SignalR\CloudScale.SignalR.csproj", "{5A9358CE-6CDE-4DF5-B77A-F26D67ED9229}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,8 +80,46 @@ Global
 		{6E97461E-1EE4-424F-8469-E72FE10DA81A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E97461E-1EE4-424F-8469-E72FE10DA81A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E97461E-1EE4-424F-8469-E72FE10DA81A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F5361C-E192-4505-94FA-C663FBC7E158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F5361C-E192-4505-94FA-C663FBC7E158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F5361C-E192-4505-94FA-C663FBC7E158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F5361C-E192-4505-94FA-C663FBC7E158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3524FC19-AF05-46B3-BF7E-9D72CA02A183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3524FC19-AF05-46B3-BF7E-9D72CA02A183}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3524FC19-AF05-46B3-BF7E-9D72CA02A183}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3524FC19-AF05-46B3-BF7E-9D72CA02A183}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FCF8592-9951-4A6A-A271-48ABF300510F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FCF8592-9951-4A6A-A271-48ABF300510F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FCF8592-9951-4A6A-A271-48ABF300510F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FCF8592-9951-4A6A-A271-48ABF300510F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB3B9FC5-B96A-448A-BC30-1D2DA71300AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB3B9FC5-B96A-448A-BC30-1D2DA71300AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB3B9FC5-B96A-448A-BC30-1D2DA71300AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB3B9FC5-B96A-448A-BC30-1D2DA71300AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF3E931D-2863-43C8-B229-6BFD402757F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF3E931D-2863-43C8-B229-6BFD402757F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF3E931D-2863-43C8-B229-6BFD402757F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF3E931D-2863-43C8-B229-6BFD402757F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19B87DC8-AB09-43AD-AA4F-B420009BC920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19B87DC8-AB09-43AD-AA4F-B420009BC920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19B87DC8-AB09-43AD-AA4F-B420009BC920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19B87DC8-AB09-43AD-AA4F-B420009BC920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9358CE-6CDE-4DF5-B77A-F26D67ED9229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9358CE-6CDE-4DF5-B77A-F26D67ED9229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9358CE-6CDE-4DF5-B77A-F26D67ED9229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9358CE-6CDE-4DF5-B77A-F26D67ED9229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1F4FAD19-EC17-40F7-9964-C03768ADC119} = {78A99CA9-CC8D-4567-8707-5791AC64C220}
+		{19CFFE8F-879E-4101-840C-C8E25FA8653A} = {78A99CA9-CC8D-4567-8707-5791AC64C220}
+		{6E97461E-1EE4-424F-8469-E72FE10DA81A} = {78A99CA9-CC8D-4567-8707-5791AC64C220}
+		{47F5361C-E192-4505-94FA-C663FBC7E158} = {28706720-65E7-4109-906E-51F856D796EE}
+		{3524FC19-AF05-46B3-BF7E-9D72CA02A183} = {28706720-65E7-4109-906E-51F856D796EE}
+		{DB3B9FC5-B96A-448A-BC30-1D2DA71300AD} = {28706720-65E7-4109-906E-51F856D796EE}
+		{DF3E931D-2863-43C8-B229-6BFD402757F7} = {28706720-65E7-4109-906E-51F856D796EE}
+		{19B87DC8-AB09-43AD-AA4F-B420009BC920} = {28706720-65E7-4109-906E-51F856D796EE}
 	EndGlobalSection
 EndGlobal

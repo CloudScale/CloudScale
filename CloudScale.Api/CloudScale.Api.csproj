@@ -92,6 +92,9 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.0\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -104,6 +107,9 @@
     <Reference Include="System.Web.Http, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.0\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -153,7 +159,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\ContainerConfig.cs" />
@@ -192,9 +197,11 @@
     <Compile Include="AutofacModules\BusModule.cs" />
     <Compile Include="AutofacModules\WebApiModule.cs" />
     <Compile Include="Controllers\FlightsController.cs" />
+    <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\PingHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +278,14 @@
     <ProjectReference Include="..\CloudScale.Core\CloudScale.Core.csproj">
       <Project>{18b3a40f-079e-4616-8950-0590f5ca2a5d}</Project>
       <Name>CloudScale.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudScale.Movies.Messages\CloudScale.Movies.Messages.csproj">
+      <Project>{47f5361c-e192-4505-94fa-c663fbc7e158}</Project>
+      <Name>CloudScale.Movies.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudScale.Movies.Models\CloudScale.Movies.Models.csproj">
+      <Project>{3524fc19-af05-46b3-bf7e-9d72ca02a183}</Project>
+      <Name>CloudScale.Movies.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@ namespace CloudScale.Api
         public static void Configure()
         {
             var builder = new ContainerBuilder();
+            
             builder.RegisterAssemblyModules(typeof(ContainerConfig).Assembly);
 
             var container = builder.Build();

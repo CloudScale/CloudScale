@@ -3,7 +3,6 @@ using System.Linq;
 using System;
 using Nimbus;
 using Serilog;
-using Raven.Client;
 
 namespace CloudScale.Airline.FlightService
 {

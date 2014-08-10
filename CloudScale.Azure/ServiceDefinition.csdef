@@ -26,7 +26,7 @@
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="HTTP" protocol="http" port="80" />
+      <InputEndpoint name="HTTP" protocol="http" port="8081" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
@@ -62,7 +62,7 @@
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="HTTP" protocol="http" port="8081" />
+      <InputEndpoint name="HTTP" protocol="http" port="80" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />

@@ -26,9 +26,19 @@ namespace CloudScale.Movies.DataService.Handlers
             return await Task.Run(() =>
             {
                 Random random = new Random(DateTimeOffset.Now.Millisecond);
-                
-                int randomSkip = random.Next(0, db.Movies.Count() - 10);
-                List<Movie> movies = db.Movies.OrderBy(p => p.OriginalTitle).Skip(randomSkip).Take(10).ToList();
+
+                List<Movie> movies = new List<Movie>();
+
+                int movieCount = db.Movies.Count();
+                if (movieCount > 10)
+                {
+                    int randomSkip = random.Next(0, movieCount - 10);
+                    movies = db.Movies.OrderBy(p => p.OriginalTitle).Skip(randomSkip).Take(10).ToList();
+                }
+                else
+                {
+                    movies = db.Movies.OrderBy(p => p.OriginalTitle).ToList();
+                }
 
                 return new GetMoviesResponse() { Movies = movies };
             });

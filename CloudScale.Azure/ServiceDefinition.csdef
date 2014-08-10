@@ -73,5 +73,8 @@
       <Setting name="ApiHost" />
       <Setting name="SignalRHost" />
     </ConfigurationSettings>
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
+    </LocalResources>
   </WebRole>
 </ServiceDefinition>

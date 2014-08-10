@@ -26,9 +26,9 @@ namespace CloudScale.Api.Controllers
             this.bus = bus;
         }
 
-        [Route("new/{name}")]
+        [Route("new")]
         [HttpPost]
-        public async Task<string> NewMovie(string name)
+        public async Task<string> NewMovie([FromBody]string name)
         {
             await bus.Publish<NewMovieEvent>(new NewMovieEvent(name));
 

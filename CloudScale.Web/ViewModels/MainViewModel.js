@@ -55,8 +55,7 @@ var CloudScale;
             $.ajax({
                 url: self.baseUrl + '/movies/new',
                 type: 'post',
-                contentType: 'application/json',
-                data: this.AddString(),
+                data: { '': this.AddString() },
                 success: function (allData) {
                     self.AddString(null);
                     self.IsLoading(false);

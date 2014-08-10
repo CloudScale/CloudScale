@@ -61,8 +61,7 @@ module CloudScale {
             $.ajax({
                 url: self.baseUrl + '/movies/new',
                 type: 'post',
-                contentType: 'application/json',
-                data: this.AddString(),
+                data: { '': this.AddString() },
                 success: function (allData) {
                     self.AddString(null);
                     self.IsLoading(false);
@@ -83,7 +82,7 @@ module CloudScale {
             console.log(searchUri);
 
             $.ajax({
-                url: searchUri, 
+                url: searchUri,
                 type: 'get',
                 success: function (allData) {
                     var url = "http://image.tmdb.org/t/p/w154";

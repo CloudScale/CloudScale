@@ -3,37 +3,37 @@
   <Role name="CloudScale.Movies.DataService">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=http;AccountName=cloudscalemovies;AccountKey=LGFvUha+GMt9qIbRBPFnMkxZlnUzpfvEMBHsYJh03IXjvfc8QeItIh0X4TkzsvJCJOTF3fF1wwtPMVEfVSTWKg==;" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://cloudscalemovies.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=n5kGkXHFeoBiGij6HQL8iYqcrl/9dvY9uncX/NR6Ip4=" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
       <Setting name="MoviesDataContext" value="Data Source=(local);Initial Catalog=CloudScaleMovies;Integrated Security=True" />
     </ConfigurationSettings>
   </Role>
   <Role name="CloudScale.Movies.LookupService">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=http;AccountName=cloudscalemovies;AccountKey=LGFvUha+GMt9qIbRBPFnMkxZlnUzpfvEMBHsYJh03IXjvfc8QeItIh0X4TkzsvJCJOTF3fF1wwtPMVEfVSTWKg==;" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://cloudscalemovies.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=n5kGkXHFeoBiGij6HQL8iYqcrl/9dvY9uncX/NR6Ip4=" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
     </ConfigurationSettings>
   </Role>
   <Role name="CloudScale.Api">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=http;AccountName=cloudscalemovies;AccountKey=LGFvUha+GMt9qIbRBPFnMkxZlnUzpfvEMBHsYJh03IXjvfc8QeItIh0X4TkzsvJCJOTF3fF1wwtPMVEfVSTWKg==;" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://cloudscalemovies.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=n5kGkXHFeoBiGij6HQL8iYqcrl/9dvY9uncX/NR6Ip4=" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
     </ConfigurationSettings>
   </Role>
   <Role name="CloudScale.SignalR">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=http;AccountName=cloudscalemovies;AccountKey=LGFvUha+GMt9qIbRBPFnMkxZlnUzpfvEMBHsYJh03IXjvfc8QeItIh0X4TkzsvJCJOTF3fF1wwtPMVEfVSTWKg==;" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://cloudscalemovies.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=n5kGkXHFeoBiGij6HQL8iYqcrl/9dvY9uncX/NR6Ip4=" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
     </ConfigurationSettings>
   </Role>
   <Role name="CloudScale.Web">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=http;AccountName=cloudscalemovies;AccountKey=LGFvUha+GMt9qIbRBPFnMkxZlnUzpfvEMBHsYJh03IXjvfc8QeItIh0X4TkzsvJCJOTF3fF1wwtPMVEfVSTWKg==;" />
-      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://cloudscalemovies.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=n5kGkXHFeoBiGij6HQL8iYqcrl/9dvY9uncX/NR6Ip4=" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://win8dev/ServiceBusDefaultNamespace;StsEndpoint=https://win8dev:9355/ServiceBusDefaultNamespace;RuntimePort=9354;ManagementPort=9355" />
       <Setting name="WebHost" value="http://cloudscalemovies.cloudapp.net/" />
       <Setting name="ApiHost" value="http://cloudscalemovies.cloudapp.net:8081/" />
       <Setting name="SignalRHost" value="http://cloudscalemovies.cloudapp.net:8082/" />

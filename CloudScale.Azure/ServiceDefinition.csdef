@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="CloudScale.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-01.2.3">
-  <WorkerRole name="CloudScale.Movies.DataService" vmsize="Small">
+  <WorkerRole name="CloudScale.Movies.DataService" vmsize="ExtraSmall">
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
@@ -9,7 +9,7 @@
       <Setting name="MoviesDataContext" />
     </ConfigurationSettings>
   </WorkerRole>
-  <WorkerRole name="CloudScale.Movies.LookupService" vmsize="Small">
+  <WorkerRole name="CloudScale.Movies.LookupService" vmsize="ExtraSmall">
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
@@ -17,7 +17,7 @@
       <Setting name="Microsoft.ServiceBus.ConnectionString" />
     </ConfigurationSettings>
   </WorkerRole>
-  <WebRole name="CloudScale.Api" vmsize="Small">
+  <WebRole name="CloudScale.Api" vmsize="ExtraSmall">
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -26,7 +26,7 @@
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="HTTP" protocol="http" port="8081" />
+      <InputEndpoint name="HTTP" protocol="http" port="80" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
@@ -35,7 +35,7 @@
       <Setting name="Microsoft.ServiceBus.ConnectionString" />
     </ConfigurationSettings>
   </WebRole>
-  <WebRole name="CloudScale.SignalR" vmsize="Small">
+  <WebRole name="CloudScale.SignalR" vmsize="ExtraSmall">
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -53,7 +53,7 @@
       <Setting name="Microsoft.ServiceBus.ConnectionString" />
     </ConfigurationSettings>
   </WebRole>
-  <WebRole name="CloudScale.Web" vmsize="Small">
+  <WebRole name="CloudScale.Web" vmsize="ExtraSmall">
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -62,7 +62,7 @@
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="HTTP" protocol="http" port="80" />
+      <InputEndpoint name="HTTP" protocol="http" port="8081" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
@@ -73,8 +73,5 @@
       <Setting name="ApiHost" />
       <Setting name="SignalRHost" />
     </ConfigurationSettings>
-    <LocalResources>
-      <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
-    </LocalResources>
   </WebRole>
 </ServiceDefinition>

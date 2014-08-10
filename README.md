@@ -19,3 +19,6 @@ TODO:
 
 * split projects into different deployment packages
 * figure out how to handle message/event versioning
+* add unit tests
+* add integration tests
+

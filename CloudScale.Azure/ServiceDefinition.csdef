@@ -35,7 +35,7 @@
       <Setting name="Microsoft.ServiceBus.ConnectionString" />
     </ConfigurationSettings>
   </WebRole>
-  <WebRole name="CloudScale.SignalR" vmsize="ExtraSmall">
+  <WebRole name="CloudScale.SignalR" vmsize="Small">
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -53,7 +53,7 @@
       <Setting name="Microsoft.ServiceBus.ConnectionString" />
     </ConfigurationSettings>
   </WebRole>
-  <WebRole name="CloudScale.Web" vmsize="ExtraSmall">
+  <WebRole name="CloudScale.Web" vmsize="Small">
     <Sites>
       <Site name="Web">
         <Bindings>

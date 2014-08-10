@@ -9,7 +9,7 @@ namespace CloudScale.Movies.Messages
 {
     public class GetMoviesRequest : IBusRequest<GetMoviesRequest, GetMoviesResponse>
     {
-
+        public string Search { get; set; }
         public GetMoviesRequest()
         {
 

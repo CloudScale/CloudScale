@@ -12,7 +12,7 @@
     <AssemblyName>CloudScale.Azure</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
     <Name>CloudScale.Azure</Name>
-    <UseWebProjectPorts>False</UseWebProjectPorts>
+    <UseWebProjectPorts>True</UseWebProjectPorts>
     <PackageEnableRemoteDebugger>False</PackageEnableRemoteDebugger>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

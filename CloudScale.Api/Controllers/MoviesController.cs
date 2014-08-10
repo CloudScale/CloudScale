@@ -26,10 +26,9 @@ namespace CloudScale.Api.Controllers
             this.bus = bus;
         }
 
-        // GET api/values
         [Route("new/{name}")]
-        [HttpGet]
-        public async Task<string> Get(string name)
+        [HttpPost]
+        public async Task<string> NewMovie(string name)
         {
             await bus.Publish<NewMovieEvent>(new NewMovieEvent(name));
 
@@ -38,11 +37,29 @@ namespace CloudScale.Api.Controllers
 
         [Route("")]
         [HttpGet]
-        public async Task<IEnumerable<CloudScale.Movies.Models.Movie>> Get()
+        public async Task<IEnumerable<CloudScale.Movies.Models.Movie>> GetMovies()
         {
             GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest(), TimeSpan.FromSeconds(2));
 
             return movies.Movies;
+        }
+
+        [Route("search/{searchString}")]
+        [HttpGet]
+        public async Task<IEnumerable<CloudScale.Movies.Models.Movie>> SearchMovies(string searchString)
+        {
+            GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest() { Search = searchString }, TimeSpan.FromSeconds(2));
+
+            return movies.Movies;
+        }
+
+        [Route("random")]
+        [HttpGet]
+        public async Task<CloudScale.Movies.Models.Movie> GetRandomMovie()
+        {
+            GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest(), TimeSpan.FromSeconds(2));
+
+            return movies.Movies.FirstOrDefault();
         }
     }
 }

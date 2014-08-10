@@ -1,19 +1,25 @@
 ﻿/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="../scripts/typings/jquery.pnotify/jquery.pnotify.d.ts" />
 /// <reference path="../scripts/typings/knockout/knockout.d.ts" />
 /// <reference path="../scripts/typings/bootstrap/bootstrap.d.ts" />
-/// <reference path="../scripts/typings/jquery.pnotify/jquery.pnotify.d.ts" />
 
 module CloudScale {
     export class Movie {
-        name: string;
+        public Id: KnockoutObservable<string> = ko.observable<string>(null);
+        public Name: KnockoutObservable<string> = ko.observable<string>(null);
+        public Poster: KnockoutObservable<string> = ko.observable<string>(null);
 
-        constructor(name: string) {
-            this.name = name;
+        constructor(id: string, name: string, img: string) {
+            this.Id(id);
+            this.Name(name);
+            this.Poster(img);
         }
     }
 
     export class MainViewModel {
         public Movies: KnockoutObservableArray<Movie> = ko.observableArray([]);
+
+        public Movie: KnockoutObservable<Movie> = ko.observable<Movie>(null);
 
         public AddString: KnockoutObservable<string> = ko.observable<string>(null);
         public SearchString: KnockoutObservable<string> = ko.observable<string>(null);
@@ -26,25 +32,22 @@ module CloudScale {
             this.baseUrl = baseApiUrl;
         }
 
-        public Initialize() {
+        public GetRandomMovie() {
             var self = this;
 
             self.IsLoading(true);
 
             $.ajax({
-                url: self.baseUrl + '/movies/',
+                url: self.baseUrl + '/movies/random',
                 type: 'get',
                 contentType: 'application/json',
-                success: function (allData) {
-                    var mappedMovies = $.map(allData, function (item) {
-                        return new CloudScale.Movie(item.OriginalTitle)
-                    });
+                success: function (m) {
+                    var url = "http://image.tmdb.org/t/p/w154";
 
-                    self.Movies(mappedMovies);
-
+                    self.Movie(new CloudScale.Movie(m.Id, m.Name, url + m.PosterPath));
                     self.IsLoading(false);
                 },
-                error: function (vm) {
+                error: function (allData) {
                     self.IsLoading(false);
                 }
             });
@@ -56,14 +59,15 @@ module CloudScale {
             self.IsLoading(true);
 
             $.ajax({
-                url: self.baseUrl + '/movies/new/' + encodeURI(this.AddString()),
-                type: 'get',
+                url: self.baseUrl + '/movies/new',
+                type: 'post',
                 contentType: 'application/json',
-                success: function (vm) {
+                data: this.AddString(),
+                success: function (allData) {
                     self.AddString(null);
                     self.IsLoading(false);
                 },
-                error: function (vm) {
+                error: function (allData) {
                     self.AddString(null);
                     self.IsLoading(false);
                 }
@@ -74,13 +78,25 @@ module CloudScale {
             var self = this;
 
             self.IsLoading(true);
+            var searchUri = self.baseUrl + '/movies/search/' + encodeURIComponent(this.SearchString());
+
+            console.log(searchUri);
 
             $.ajax({
-                url: self.baseUrl + '/movies/search',
-                type: 'post',
-                data: this.SearchString(),
-                contentType: 'application/json',
-                success: function (vm) {
+                url: searchUri, 
+                type: 'get',
+                success: function (allData) {
+                    var url = "http://image.tmdb.org/t/p/w154";
+
+                    var mappedMovies = $.map(allData, function (item) {
+                        console.log(item);
+                        return new CloudScale.Movie(item.Id, item.Name, url + item.PosterPath)
+                    });
+
+                    self.Movies(mappedMovies);
+
+                    console.log(mappedMovies);
+
                     self.SearchString(null);
                     self.IsLoading(false);
                 },

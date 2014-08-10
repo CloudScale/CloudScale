@@ -11,7 +11,6 @@
 {
     <script src="@signalrHost/scripts/jquery.signalR-2.1.1.min.js"></script>
     <script src="@signalrHost/signalr/hubs"></script>
-
     <script src="~/ViewModels/MainViewModel.js"></script>
     <script type="text/javascript">
         (function () {
@@ -21,7 +20,7 @@
 
             PNotify.prototype.options.styling = "bootstrap3";
 
-            viewModel.Initialize();
+            viewModel.GetRandomMovie();
 
             // set up SignalR
             $.connection.hub.url = "@signalrHost/signalr";
@@ -32,7 +31,7 @@
                 new PNotify({
                     text: 'ping... pong...',
                     nonblock: {
-                        nonblock: true, 
+                        nonblock: true,
                         nonblock_opacity: .2
                     }
                 });
@@ -63,12 +62,6 @@
     <h1>Movies</h1>
 </div>
 
-<div class="container">
-    <ul data-bind="foreach: Movies">
-        <li data-bind="text: name"></li>
-    </ul>
-</div>
-
 <div class="form-group">
     <label>Search Movies</label>
     <input type="text" data-bind="value: SearchString, valueUpdate: 'afterkeydown'" />
@@ -80,3 +73,14 @@
     <input type="text" data-bind="value: AddString, valueUpdate: 'afterkeydown'" />
     <input type="button" data-bind="enable: AddString, click: AddMovie" value="Add" />
 </div>
+
+<input type="button" data-bind="click: GetRandomMovie" value="Get Movie" />
+<div class="container" data-bind="with: Movie">
+    <span data-bind="text: Id"></span>
+    <h3 data-bind="text: Name"></h3>
+    <img data-bind="attr:{src: Poster}" />
+</div>
+
+<ul data-bind="foreach: Movies">
+    <li data-bind="text: Name" />
+</ul>

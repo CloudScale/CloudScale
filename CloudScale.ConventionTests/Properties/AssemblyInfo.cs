@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CloudScale.Airline.FlightService")]
+[assembly: AssemblyTitle("CloudScale.ConventionTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CloudScale.Airline.FlightService")]
+[assembly: AssemblyProduct("CloudScale.ConventionTests")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8622b33a-7044-4b2c-a7b1-ff5ef66fc60c")]
+[assembly: Guid("5fe13357-a126-4e8b-85db-dafc0dfa607a")]
 
 // Version information for an assembly consists of the following four values:
 //

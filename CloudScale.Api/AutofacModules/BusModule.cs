@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
+using Microsoft.WindowsAzure.ServiceRuntime;
 using Nimbus;
 using Nimbus.Configuration;
 using Nimbus.Infrastructure;
@@ -7,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
+using Microsoft.WindowsAzure;
 
 namespace CloudScale.Api.AutofacModules
 {
@@ -16,7 +19,7 @@ namespace CloudScale.Api.AutofacModules
         {
             base.Load(builder);
 
-            var connectionString = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
 
             // You'll want a logger. There's a ConsoleLogger and a NullLogger if you really don't care. You can roll your
             // own by implementing the ILogger interface if you want to hook it to an existing logging implementation.
@@ -25,12 +28,11 @@ namespace CloudScale.Api.AutofacModules
                    .SingleInstance();
 
             // This is how you tell Nimbus where to find all your message types and handlers.
-            var airlineAssemlbly = typeof(CloudScale.Airline.Messages.NewFlightCommand).Assembly;
             var moviesAssembly = typeof(CloudScale.Movies.Messages.PingRequest).Assembly;
             var nimbusAssembly = typeof(Bus).Assembly; // for stock interceptors
 
-            var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, airlineAssemlbly, moviesAssembly);
-            
+            var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, moviesAssembly);
+
             builder.RegisterNimbus(handlerTypesProvider);
 
             builder.Register(componentContext => new BusBuilder()

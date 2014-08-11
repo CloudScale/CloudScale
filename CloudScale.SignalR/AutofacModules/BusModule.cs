@@ -23,11 +23,10 @@ namespace CloudScale.SignalR.AutofacModules
                    .SingleInstance();
 
             // This is how you tell Nimbus where to find all your message types and handlers.
-            var airlineAssemlbly = typeof(CloudScale.Airline.Messages.NewFlightCommand).Assembly;
             var moviesAssembly = typeof(CloudScale.Movies.Messages.PingRequest).Assembly;
             var nimbusAssembly = typeof(Bus).Assembly; // for stock interceptors
 
-            var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, airlineAssemlbly, moviesAssembly);
+            var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, moviesAssembly);
             
             builder.RegisterNimbus(handlerTypesProvider);
 

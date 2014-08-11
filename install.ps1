@@ -18,3 +18,5 @@ foreach ($project in $serviceProjects)
 	Install-Package Nimbus.Logger.Serilog -Project $project
 }
 
+
+# Install-Package Microsoft.WindowsAzure.ConfigurationManager

@@ -5,15 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>2.3</ProductVersion>
-    <ProjectGuid>8fcf8592-9951-4a6a-a271-48abf300510f</ProjectGuid>
+    <ProjectGuid>ed877605-8d44-45c9-ab82-cc420165d484</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CloudScale.Azure</RootNamespace>
-    <AssemblyName>CloudScale.Azure</AssemblyName>
+    <RootNamespace>CloudScale.Azure.DataService</RootNamespace>
+    <AssemblyName>CloudScale.Azure.DataService</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
-    <Name>CloudScale.Azure</Name>
-    <UseWebProjectPorts>True</UseWebProjectPorts>
-    <PackageEnableRemoteDebugger>False</PackageEnableRemoteDebugger>
+    <Name>CloudScale.Azure.DataService</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,20 +37,20 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CloudScale.Web\CloudScale.Web.csproj">
-      <Name>CloudScale.Web</Name>
-      <Project>{1bc6f853-ed36-45a0-a703-fb6cec29e093}</Project>
+    <ProjectReference Include="..\CloudScale.Movies.DataService\CloudScale.Movies.DataService.csproj">
+      <Name>CloudScale.Movies.DataService</Name>
+      <Project>{db3b9fc5-b96a-448a-bc30-1d2da71300ad}</Project>
       <Private>True</Private>
-      <RoleType>Web</RoleType>
-      <RoleName>CloudScale.Web</RoleName>
+      <RoleType>Worker</RoleType>
+      <RoleName>CloudScale.Movies.DataService</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CloudScale.WebContent\" />
+    <Folder Include="CloudScale.Movies.DataServiceContent\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CloudScale.WebContent\diagnostics.wadcfg">
+    <Content Include="CloudScale.Movies.DataServiceContent\diagnostics.wadcfg">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>

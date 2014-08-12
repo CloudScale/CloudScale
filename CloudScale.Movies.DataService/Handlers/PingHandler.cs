@@ -10,9 +10,15 @@ namespace CloudScale.Movies.DataService.Handlers
 {
     public class PingHandler : IHandleRequest<PingRequest, PingResponse>
     {
-        public Task<PingResponse> Handle(PingRequest request)
+        public async Task<PingResponse> Handle(PingRequest request)
         {
-            return Task.Run(() => { return new PingResponse() { Details = this.GetType().FullName }; });
+            return await Task.Run(() =>
+            {
+                return new PingResponse()
+                {
+                    Details = this.GetType() + " : " + this.GetType().Assembly.GetName().Version.ToString()
+                };
+            });
         }
     }
 }

@@ -38,7 +38,30 @@ var CloudScale;
                 success: function (m) {
                     var url = "http://image.tmdb.org/t/p/w154";
 
-                    self.Movie(new CloudScale.Movie(m.Id, m.Name, url + m.PosterPath));
+                    self.Movie(new CloudScale.Movie(m.Id, m.OriginalTitle, url + m.PosterPath));
+                    self.IsLoading(false);
+                },
+                error: function (allData) {
+                    self.IsLoading(false);
+                }
+            });
+        };
+
+        MainViewModel.prototype.Vote = function (value) {
+            var self = this;
+
+            $.ajax({
+                url: self.baseUrl + '/movies/vote',
+                type: 'post',
+                data: {
+                    'Id': self.Movie().Id(),
+                    'MovieName': '',
+                    'PersonName': '',
+                    'Score': ''
+                },
+                contentType: 'application/json',
+                success: function (m) {
+                    self.GetRandomMovie();
                     self.IsLoading(false);
                 },
                 error: function (allData) {

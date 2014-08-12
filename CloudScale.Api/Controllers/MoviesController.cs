@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using CloudScale.Movies.Messages;
 using System.Web.Http.Cors;
+using CloudScale.Movies.Models;
 
 namespace CloudScale.Api.Controllers
 {
@@ -33,9 +34,16 @@ namespace CloudScale.Api.Controllers
             return "New Movie '" + name + "' submitted for processing";
         }
 
+        [Route("vote")]
+        [HttpPost]
+        public async Task Vote([FromBody]MovieScore score)
+        {
+            await bus.Publish<NewScoreEvent>(new NewScoreEvent(score.MovieName, score.PersonName, score.Score));
+        }
+
         [Route("")]
         [HttpGet]
-        public async Task<IEnumerable<CloudScale.Movies.Models.Movie>> GetMovies()
+        public async Task<IEnumerable<Movie>> GetMovies()
         {
             GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest(), TimeSpan.FromSeconds(2));
 
@@ -44,7 +52,7 @@ namespace CloudScale.Api.Controllers
 
         [Route("search/{searchString}")]
         [HttpGet]
-        public async Task<IEnumerable<CloudScale.Movies.Models.Movie>> SearchMovies(string searchString)
+        public async Task<IEnumerable<Movie>> SearchMovies(string searchString)
         {
             GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest() { Search = searchString }, TimeSpan.FromSeconds(2));
 
@@ -53,7 +61,7 @@ namespace CloudScale.Api.Controllers
 
         [Route("random")]
         [HttpGet]
-        public async Task<CloudScale.Movies.Models.Movie> GetRandomMovie()
+        public async Task<Movie> GetRandomMovie()
         {
             GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest(), TimeSpan.FromSeconds(2));
 

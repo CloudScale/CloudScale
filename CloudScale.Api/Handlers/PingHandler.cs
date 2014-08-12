@@ -12,7 +12,13 @@ namespace CloudScale.Api.Handlers
     {
         public Task<PingResponse> Handle(PingRequest request)
         {
-            return Task.Run(() => { return new PingResponse() { Details = this.GetType().FullName }; });
+            return Task.Run(() =>
+            {
+                return new PingResponse()
+                {
+                    Details = this.GetType() + " : " + this.GetType().Assembly.GetName().Version.ToString()
+                };
+            });
         }
     }
 }

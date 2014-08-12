@@ -21,9 +21,15 @@ namespace CloudScale.SignalR.Handlers
 
         public async Task<PingResponse> Handle(PingRequest request)
         {
-            movieHub.Clients.All.Ping(); 
+            movieHub.Clients.All.Ping();
 
-            return await Task.Run(() => { return new PingResponse() { Details = this.GetType().FullName }; });
+            return await Task.Run(() =>
+            {
+                return new PingResponse()
+                {
+                    Details = this.GetType() + " : " + this.GetType().Assembly.GetName().Version.ToString()
+                };
+            });
         }
     }
 }

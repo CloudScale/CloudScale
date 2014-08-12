@@ -53,19 +53,22 @@ module CloudScale {
             });
         }
 
-        public Vote(value: number) {
+        public Vote(value, event) {
             var self = this;
+
+            var vote = event.target.innerText;
+
+            if (self.Movie() === null)
+                return;
 
             $.ajax({
                 url: self.baseUrl + '/movies/vote',
                 type: 'post',
                 data: {
-                    'Id': self.Movie().Id(),
-                    'MovieName': '',
-                    'PersonName': '',
-                    'Score': ''
+                    'MovieName': self.Movie().Name(),
+                    'PersonName': 'Some Person',
+                    'Score': vote
                 },
-                contentType: 'application/json',
                 success: function (m) {
                     self.GetRandomMovie();
                     self.IsLoading(false);

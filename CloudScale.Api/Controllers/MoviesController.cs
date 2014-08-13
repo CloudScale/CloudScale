@@ -9,20 +9,32 @@ using System.Web.Http;
 using CloudScale.Movies.Messages;
 using System.Web.Http.Cors;
 using CloudScale.Movies.Models;
+using CloudScale.Movies.Data;
+using System.Data.Entity.SqlServer;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
+using System.Security.Claims;
+using CloudScale.Api.Filters;
+using System.Web.Http.ValueProviders;
+using System.Web.Http.Controllers;
 
 namespace CloudScale.Api.Controllers
 {
+    [Authorize]
     [EnableCors("*", "*", "*")]
     [RoutePrefix("movies")]
     public class MoviesController : ApiController
     {
         private readonly IBus bus;
+        private readonly IMoviesDataContext db;
 
-        public MoviesController(IBus bus)
+        public MoviesController(IBus bus, IMoviesDataContext db)
         {
             if (bus == null) throw new ArgumentNullException("bus");
+            if (db == null) throw new ArgumentNullException("db");
 
             this.bus = bus;
+            this.db = db;
         }
 
         [Route("new")]
@@ -38,34 +50,67 @@ namespace CloudScale.Api.Controllers
         [HttpPost]
         public async Task Vote([FromBody]MovieScore score)
         {
-            await bus.Publish<NewScoreEvent>(new NewScoreEvent(score.MovieName, score.PersonName, score.Score));
+            Guid userId = (Guid)ActionContext.Request.Properties["UserId"]; 
+
+            await bus.Publish<NewScoreEvent>(new NewScoreEvent(score.MovieId.Value, userId, score.Score));
+        }
+
+        private IEnumerable<Movie> GetRandomMovies()
+        {
+            Random random = new Random(DateTimeOffset.Now.Millisecond);
+
+            List<Movie> movies = new List<Movie>();
+
+            int movieCount = db.Movies.Where(p => p.TMDBId != 0).Count();
+            if (movieCount > 10)
+            {
+                int randomSkip = random.Next(0, movieCount - 10);
+                movies.AddRange(db.Movies.Where(p => p.TMDBId != 0).OrderBy(p => p.OriginalTitle).Skip(randomSkip).Take(10).ToList());
+            }
+            else
+            {
+                movies.AddRange(db.Movies.Where(p => p.TMDBId != 0).OrderBy(p => p.OriginalTitle).ToList());
+            }
+            return movies;
+        }
+
+        private IEnumerable<Movie> GetSearchedMovies(string searchTerm)
+        {
+            List<Movie> movies = new List<Movie>();
+
+            movies.AddRange(db.Movies.Where(p => p.OriginalTitle.Contains(searchTerm) || SqlFunctions.SoundCode(p.OriginalTitle) == SqlFunctions.SoundCode(searchTerm)).ToList());
+
+            return movies.Take(10);
         }
 
         [Route("")]
         [HttpGet]
         public async Task<IEnumerable<Movie>> GetMovies()
         {
-            GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest(), TimeSpan.FromSeconds(2));
-
-            return movies.Movies;
+            return await Task.Run(() => { return GetRandomMovies(); });
         }
 
         [Route("search/{searchString}")]
         [HttpGet]
         public async Task<IEnumerable<Movie>> SearchMovies(string searchString)
         {
-            GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest() { Search = searchString }, TimeSpan.FromSeconds(2));
-
-            return movies.Movies;
+            return await Task.Run(() => { return GetSearchedMovies(searchString); });
         }
 
         [Route("random")]
         [HttpGet]
         public async Task<Movie> GetRandomMovie()
         {
-            GetMoviesResponse movies = await bus.Request<GetMoviesRequest, GetMoviesResponse>(new GetMoviesRequest(), TimeSpan.FromSeconds(2));
+            Random random = new Random(DateTimeOffset.Now.Millisecond);
 
-            return movies.Movies.FirstOrDefault();
+            return await Task.Run(() =>
+            {
+                IEnumerable<Movie> list = GetRandomMovies();
+
+                int skip = random.Next(list.Count());
+
+                return list.Skip(skip).FirstOrDefault();
+            });
         }
     }
 }

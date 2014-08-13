@@ -18,8 +18,8 @@ namespace CloudScale.ConventionTests
             get
             {
                 Assembly[] assemblies = new Assembly[] { 
-                        typeof(CloudScale.Web.MvcApplication).Assembly, 
-                        typeof(CloudScale.Api.WebApiApplication).Assembly,
+                        typeof(CloudScale.Web.Startup).Assembly, 
+                        typeof(CloudScale.Api.Startup).Assembly,
                         typeof(CloudScale.SignalR.Startup).Assembly,
                         typeof(CloudScale.Movies.DataService.WorkerRole).Assembly,
                         typeof(CloudScale.Movies.LookupService.WorkerRole).Assembly ,

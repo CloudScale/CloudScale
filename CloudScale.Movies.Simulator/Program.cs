@@ -100,7 +100,7 @@ namespace CloudScale.Movies.Simulator
                                             
                                             Log.Information("Register Score For {Movie} to {Person} for {Score}", movieName, name, score);
 
-                                            bus.Publish<NewScoreEvent>(new NewScoreEvent(movieName, name, score));
+                                            //bus.Publish<NewScoreEvent>(new NewScoreEvent(movieName, name, score));
                                         }
                                     }
                                 }

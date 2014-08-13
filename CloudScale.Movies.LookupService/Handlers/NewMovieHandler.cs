@@ -31,7 +31,7 @@ namespace CloudScale.Movies.LookupService.Handlers
         {
             Log.Information("{Type} New Movie {Movie}", GetType().FullName, busEvent.Movie);
 
-            IsRegisteredResponse isRegistered = await bus.Request<IsRegisteredRequest, IsRegisteredResponse>(new IsRegisteredRequest(busEvent.Movie.Name), TimeSpan.FromSeconds(3));
+            IsRegisteredResponse isRegistered = await bus.Request<IsRegisteredRequest, IsRegisteredResponse>(new IsRegisteredRequest(busEvent.Movie.Name), TimeSpan.FromSeconds(5));
 
             if (!isRegistered.Registered)
             {

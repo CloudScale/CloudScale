@@ -14,7 +14,7 @@
     <script src="~/ViewModels/MainViewModel.js"></script>
     <script type="text/javascript">
         (function () {
-            var viewModel = new CloudScale.MainViewModel('@apiHost');
+            var viewModel = new CloudScale.MainViewModel('@apiHost', '20581a70-11bf-433c-9a7f-3198e1501757');
 
             ko.applyBindings(viewModel);
 
@@ -65,23 +65,35 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label>Search Movies</label>
-                <input type="text" data-bind="value: SearchString, valueUpdate: 'afterkeydown'" />
+                <input type="text" data-bind="enable: IsAuth, value: SearchString, valueUpdate: 'afterkeydown'" />
                 <input class="btn btn-primary" type="button" data-bind="enable: SearchString, click: SearchMovie" value="Search" />
             </div>
 
             <div class="form-group">
                 <label>Add Movie</label>
-                <input type="text" data-bind="value: AddString, valueUpdate: 'afterkeydown'" />
+                <input type="text" data-bind="enable: IsAuth, value: AddString, valueUpdate: 'afterkeydown'" />
                 <input class="btn btn-primary" type="button" data-bind="enable: AddString, click: AddMovie" value="Add" />
             </div>
 
             <div class="form-group">
-                <input class="btn btn-primary" type="button" data-bind="click: GetRandomMovie" value="Get Movie" />
+                <input class="btn btn-primary" type="button" data-bind="enable: IsAuth, click: GetRandomMovie" value="Get Movie" />
+            </div>
+
+            <div class="form-group">
+                <input class="btn btn-primary" type="button" data-bind="click: Login" value="Log In" />
+            </div>
+
+            <div class="form-group">
+                <input class="btn btn-primary" type="button" data-bind="enable: IsAuth, click: Logout" value="Log Out" />
+            </div>
+
+            <div class="form-group">
+                <input class="btn btn-primary" type="button" data-bind="click: Register" value="Register User" />
             </div>
         </div>
 
         <div class="col-lg-8">
-            <div data-bind="with: Movie">
+            <div data-bind="with: CurrentMovie">
                 <h3 data-bind="text: Name"></h3>
                 <img data-bind="attr:{src: Poster}" />
             </div>
@@ -90,8 +102,8 @@
 
             </p>
 
-            <div class="btn-toolbar text-center">
-                <div class="btn-group">
+            <div class="btn-toolbar text-center" data-bind="visible: IsAuth">
+                <div class=" btn-group">
                     <button type="button" class="btn btn-default" data-bind="click: GetRandomMovie">X</button>
                 </div>
                 <div class="btn-group">

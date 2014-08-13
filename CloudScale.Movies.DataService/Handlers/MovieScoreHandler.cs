@@ -1,3 +1,4 @@
+using CloudScale.Movies.Data;
 using CloudScale.Movies.Messages;
 using Nimbus;
 using Nimbus.Handlers;
@@ -26,15 +27,16 @@ namespace CloudScale.Movies.DataService.Handlers
 
         public async Task Handle(NewScoreEvent busEvent)
         {
-            Log.Information("{Type} New Score for {Movie}", GetType().FullName, busEvent.MovieName);
+            Log.Information("{Type} New Score for {Movie}", GetType().FullName, busEvent.MovieId);
 
-            var movieScore = db.MovieScores.FirstOrDefault(p => p.MovieName == busEvent.MovieName && p.PersonName == busEvent.PersonName);
+            var movieScore = db.MovieScores.FirstOrDefault(p => p.MovieId == busEvent.MovieId && p.UserId == busEvent.UserId);
 
             if (movieScore == null)
             {
                 movieScore = new Models.MovieScore();
-                movieScore.MovieName = busEvent.MovieName;
-                movieScore.PersonName = busEvent.PersonName;
+                movieScore.MovieId = busEvent.MovieId;
+                movieScore.UserId = busEvent.UserId;
+
                 db.MovieScores.Add(movieScore);
             }
 

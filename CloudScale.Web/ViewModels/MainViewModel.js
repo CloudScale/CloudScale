@@ -4,6 +4,25 @@
 /// <reference path="../scripts/typings/bootstrap/bootstrap.d.ts" />
 var CloudScale;
 (function (CloudScale) {
+    var Vote = (function () {
+        function Vote(movieId, score) {
+            this.MovieId = movieId;
+            this.Score = score;
+        }
+        return Vote;
+    })();
+    CloudScale.Vote = Vote;
+
+    var RegisterUser = (function () {
+        function RegisterUser(userName, password, confirm) {
+            this.userName = userName;
+            this.password = password;
+            this.confirmPassword = confirm;
+        }
+        return RegisterUser;
+    })();
+    CloudScale.RegisterUser = RegisterUser;
+
     var Movie = (function () {
         function Movie(id, name, img) {
             this.Id = ko.observable(null);
@@ -17,17 +36,46 @@ var CloudScale;
     })();
     CloudScale.Movie = Movie;
 
+    var LoginUser = (function () {
+        function LoginUser(userName, password) {
+            this.grant_type = 'password';
+            this.client_id = 'CloudScale';
+            this.userName = userName;
+            this.password = password;
+        }
+        return LoginUser;
+    })();
+    CloudScale.LoginUser = LoginUser;
+})(CloudScale || (CloudScale = {}));
+
+var CloudScale;
+(function (CloudScale) {
     var MainViewModel = (function () {
         function MainViewModel(baseApiUrl) {
             this.Movies = ko.observableArray([]);
-            this.Movie = ko.observable(null);
+            this.CurrentMovie = ko.observable(null);
             this.AddString = ko.observable(null);
             this.SearchString = ko.observable(null);
             this.IsLoading = ko.observable(false);
+            this.IsAuth = ko.observable(false);
             this.baseUrl = baseApiUrl;
+
+            var token = JSON.parse(localStorage.getItem('token'));
+
+            if (token != null) {
+                var access_token = token.access_token;
+                var token_type = token.token_type;
+
+                this.IsAuth(true);
+            }
         }
         MainViewModel.prototype.GetRandomMovie = function () {
             var self = this;
+
+            var token = JSON.parse(localStorage.getItem('token'));
+
+            if (token == null)
+                return;
 
             self.IsLoading(true);
 
@@ -36,13 +84,26 @@ var CloudScale;
                 type: 'get',
                 contentType: 'application/json',
                 success: function (m) {
-                    var url = "http://image.tmdb.org/t/p/w154";
+                    if (m === null) {
+                    } else {
+                        var url = "http://image.tmdb.org/t/p/w154";
+                        self.CurrentMovie(new CloudScale.Movie(m.id, m.originalTitle, url + m.posterPath));
+                    }
 
-                    self.Movie(new CloudScale.Movie(m.Id, m.OriginalTitle, url + m.PosterPath));
                     self.IsLoading(false);
                 },
-                error: function (allData) {
+                error: function (response) {
                     self.IsLoading(false);
+                },
+                beforeSend: function (xhr) {
+                    var token = JSON.parse(localStorage.getItem('token'));
+
+                    if (token != null) {
+                        var access_token = token.access_token;
+                        var token_type = token.token_type;
+
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+                    }
                 }
             });
         };
@@ -52,23 +113,29 @@ var CloudScale;
 
             var vote = event.target.innerText;
 
-            if (self.Movie() === null)
+            if (self.CurrentMovie() === null)
                 return;
 
             $.ajax({
                 url: self.baseUrl + '/movies/vote',
                 type: 'post',
-                data: {
-                    'MovieName': self.Movie().Name(),
-                    'PersonName': 'Some Person',
-                    'Score': vote
-                },
+                data: new CloudScale.Vote(self.CurrentMovie().Id(), vote),
                 success: function (m) {
                     self.GetRandomMovie();
                     self.IsLoading(false);
                 },
                 error: function (allData) {
                     self.IsLoading(false);
+                },
+                beforeSend: function (xhr) {
+                    var token = JSON.parse(localStorage.getItem('token'));
+
+                    if (token != null) {
+                        var access_token = token.access_token;
+                        var token_type = token.token_type;
+
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+                    }
                 }
             });
         };
@@ -89,6 +156,71 @@ var CloudScale;
                 error: function (allData) {
                     self.AddString(null);
                     self.IsLoading(false);
+                },
+                beforeSend: function (xhr) {
+                    var token = JSON.parse(localStorage.getItem('token'));
+
+                    if (token != null) {
+                        var access_token = token.access_token;
+                        var token_type = token.token_type;
+
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+                    }
+                }
+            });
+        };
+
+        MainViewModel.prototype.Login = function () {
+            var self = this;
+
+            self.IsLoading(true);
+
+            $.ajax({
+                url: self.baseUrl + '/token',
+                type: 'post',
+                data: new CloudScale.LoginUser('Shaw', 'secret'),
+                success: function (response) {
+                    localStorage.setItem('token', JSON.stringify(response));
+
+                    self.IsAuth(true);
+                    self.IsLoading(false);
+
+                    self.GetRandomMovie();
+                },
+                error: function (response) {
+                    self.IsAuth(false);
+                    self.IsLoading(false);
+                }
+            });
+        };
+
+        MainViewModel.prototype.Logout = function () {
+            var self = this;
+
+            self.IsAuth(false);
+            localStorage.setItem('token', null);
+        };
+
+        MainViewModel.prototype.Register = function () {
+            var self = this;
+
+            self.IsLoading(true);
+
+            $.ajax({
+                url: self.baseUrl + '/account/register',
+                type: 'post',
+                data: new CloudScale.RegisterUser('Shaw', 'secret', 'secret'),
+                success: function (response) {
+                    console.log('success: ' + response.responseJSON);
+
+                    self.IsLoading(false);
+                },
+                error: function (response) {
+                    var error = response.responseJSON;
+                    console.log('error: ' + error.message);
+                    console.log('description: ' + error.modelState[""][0]);
+
+                    self.IsLoading(false);
                 }
             });
         };
@@ -98,8 +230,6 @@ var CloudScale;
 
             self.IsLoading(true);
             var searchUri = self.baseUrl + '/movies/search/' + encodeURIComponent(this.SearchString());
-
-            console.log(searchUri);
 
             $.ajax({
                 url: searchUri,
@@ -122,6 +252,16 @@ var CloudScale;
                 error: function (vm) {
                     self.SearchString(null);
                     self.IsLoading(false);
+                },
+                beforeSend: function (xhr) {
+                    var token = JSON.parse(localStorage.getItem('token'));
+
+                    if (token != null) {
+                        var access_token = token.access_token;
+                        var token_type = token.token_type;
+
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+                    }
                 }
             });
         };

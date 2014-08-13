@@ -46,6 +46,12 @@
     <Reference Include="FluentScheduler">
       <HintPath>..\packages\FluentScheduler.3.1.44\lib\net40\FluentScheduler.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
@@ -112,15 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacModules\BusModule.cs" />
-    <Compile Include="Handlers\GetMoviesHandler.cs" />
-    <Compile Include="Migrations\201408090151530_LookupImportFields.cs" />
-    <Compile Include="Migrations\201408090151530_LookupImportFields.Designer.cs">
-      <DependentUpon>201408090151530_LookupImportFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201408090158003_ExtraMovieFields.cs" />
-    <Compile Include="Migrations\201408090158003_ExtraMovieFields.Designer.cs">
-      <DependentUpon>201408090158003_ExtraMovieFields.cs</DependentUpon>
-    </Compile>
     <Compile Include="Scheduler\AutofacTaskFactory.cs" />
     <Compile Include="Scheduler\DataImportRegistry.cs" />
     <Compile Include="AutofacModules\DbModule.cs" />
@@ -130,25 +127,6 @@
     <Compile Include="Handlers\NewMovieHandler.cs" />
     <Compile Include="Handlers\IsRegisteredHandler.cs" />
     <Compile Include="Handlers\PingHandler.cs" />
-    <Compile Include="IMoviesDataContext.cs" />
-    <Compile Include="Migrations\201408081323155_Initial.cs" />
-    <Compile Include="Migrations\201408081323155_Initial.Designer.cs">
-      <DependentUpon>201408081323155_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201408081351561_LookupResponses.cs" />
-    <Compile Include="Migrations\201408081351561_LookupResponses.Designer.cs">
-      <DependentUpon>201408081351561_LookupResponses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201408081422321_NameField.cs" />
-    <Compile Include="Migrations\201408081422321_NameField.Designer.cs">
-      <DependentUpon>201408081422321_NameField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201408081512231_MovieScores.cs" />
-    <Compile Include="Migrations\201408081512231_MovieScores.Designer.cs">
-      <DependentUpon>201408081512231_MovieScores.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="MoviesDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler\DataImportTask.cs" />
     <Compile Include="WorkerRole.cs" />
@@ -162,6 +140,10 @@
       <Project>{18b3a40f-079e-4616-8950-0590f5ca2a5d}</Project>
       <Name>CloudScale.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CloudScale.Movies.Data\CloudScale.Movies.Data.csproj">
+      <Project>{4907ec0e-d21f-4aae-8953-978d5baeefee}</Project>
+      <Name>CloudScale.Movies.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CloudScale.Movies.Messages\CloudScale.Movies.Messages.csproj">
       <Project>{47f5361c-e192-4505-94fa-c663fbc7e158}</Project>
       <Name>CloudScale.Movies.Messages</Name>
@@ -170,26 +152,6 @@
       <Project>{3524fc19-af05-46b3-bf7e-9d72ca02a183}</Project>
       <Name>CloudScale.Movies.Models</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201408081323155_Initial.resx">
-      <DependentUpon>201408081323155_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408081351561_LookupResponses.resx">
-      <DependentUpon>201408081351561_LookupResponses.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408081422321_NameField.resx">
-      <DependentUpon>201408081422321_NameField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408081512231_MovieScores.resx">
-      <DependentUpon>201408081512231_MovieScores.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408090151530_LookupImportFields.resx">
-      <DependentUpon>201408090151530_LookupImportFields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201408090158003_ExtraMovieFields.resx">
-      <DependentUpon>201408090158003_ExtraMovieFields.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

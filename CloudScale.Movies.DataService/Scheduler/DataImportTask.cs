@@ -12,6 +12,7 @@ using FluentScheduler;
 using Serilog;
 using CloudScale.Movies.Models;
 using Newtonsoft.Json;
+using CloudScale.Movies.Data;
 
 namespace CloudScale.Movies.DataService.Scheduler
 {

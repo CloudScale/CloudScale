@@ -8,12 +8,16 @@ namespace CloudScale.Movies.Models
 {
     public class MovieScore
     {
-        public string MovieName { get; set; }
-        public string PersonName { get; set; }
+        public Guid Id { get; set; }
+        public DateTimeOffset TimeLogged { get; set; }
+        public virtual Movie Movie { get; set; }
+        public Guid? MovieId { get; set; }
+        public Guid? UserId { get; set; }
         public double Score { get; set; }
 
         public MovieScore()
         {
+            TimeLogged = DateTimeOffset.UtcNow;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CloudScale.Movies.Messages;
+﻿using CloudScale.Movies.Data;
+using CloudScale.Movies.Messages;
 using Nimbus.Handlers;
 using System;
 using System.Collections.Generic;

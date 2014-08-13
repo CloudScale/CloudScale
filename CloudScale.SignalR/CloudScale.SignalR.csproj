@@ -168,7 +168,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\ContainerConfig.cs" />
+    <Compile Include="App_Start\AutofacConfig.cs" />
+    <Compile Include="App_Start\SignalRConfig.cs" />
     <Compile Include="AutofacModules\BusModule.cs" />
     <Compile Include="AutofacModules\SignalRModule.cs" />
     <Compile Include="Handlers\LookupMovieHandler.cs" />

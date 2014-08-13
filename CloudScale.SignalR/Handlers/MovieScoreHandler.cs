@@ -23,7 +23,7 @@ namespace CloudScale.Movies.DataService.Handlers
 
         public async Task Handle(NewScoreEvent busEvent)
         {
-            await movieHub.Clients.All.Notify(busEvent.PersonName + " just scored " + busEvent.MovieName + " " + busEvent.Score);
+            await movieHub.Clients.All.Notify(busEvent.UserId + " just scored " + busEvent.MovieId + " " + busEvent.Score);
         }
     }
 }

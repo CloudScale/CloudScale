@@ -9,7 +9,8 @@ using System.Web;
 using Nimbus.Logger.Serilog;
 using CloudScale.Movies.DataService;
 using System.Data.Entity;
-using CloudScale.Movies.DataService.Migrations;
+using CloudScale.Movies.Data.Migrations;
+using CloudScale.Movies.Data;
 
 namespace AutofacModules
 {
@@ -18,8 +19,6 @@ namespace AutofacModules
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-
-            Database.SetInitializer<MoviesDataContext>(new MigrateDatabaseToLatestVersion<MoviesDataContext, Configuration>());
 
             builder.RegisterType<MoviesDataContext>()
                     .As<IMoviesDataContext>();

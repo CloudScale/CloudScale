@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4907EC0E-D21F-4AAE-8953-978D5BAEEFEE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CloudScale.Data</RootNamespace>
+    <AssemblyName>CloudScale.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IMoviesDataContext.cs" />
+    <Compile Include="IUserImplementer.cs" />
+    <Compile Include="Migrations\201408081323155_Initial.cs" />
+    <Compile Include="Migrations\201408081323155_Initial.Designer.cs">
+      <DependentUpon>201408081323155_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408081351561_LookupResponses.cs" />
+    <Compile Include="Migrations\201408081351561_LookupResponses.Designer.cs">
+      <DependentUpon>201408081351561_LookupResponses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408081422321_NameField.cs" />
+    <Compile Include="Migrations\201408081422321_NameField.Designer.cs">
+      <DependentUpon>201408081422321_NameField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408081512231_MovieScores.cs" />
+    <Compile Include="Migrations\201408081512231_MovieScores.Designer.cs">
+      <DependentUpon>201408081512231_MovieScores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408090151530_LookupImportFields.cs" />
+    <Compile Include="Migrations\201408090151530_LookupImportFields.Designer.cs">
+      <DependentUpon>201408090151530_LookupImportFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408090158003_ExtraMovieFields.cs" />
+    <Compile Include="Migrations\201408090158003_ExtraMovieFields.Designer.cs">
+      <DependentUpon>201408090158003_ExtraMovieFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408121253423_Changes.cs" />
+    <Compile Include="Migrations\201408121253423_Changes.Designer.cs">
+      <DependentUpon>201408121253423_Changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408130127019_MovieLinkInScoring.cs" />
+    <Compile Include="Migrations\201408130127019_MovieLinkInScoring.Designer.cs">
+      <DependentUpon>201408130127019_MovieLinkInScoring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408130138514_MovieScores1.cs" />
+    <Compile Include="Migrations\201408130138514_MovieScores1.Designer.cs">
+      <DependentUpon>201408130138514_MovieScores1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408130422031_Security.cs" />
+    <Compile Include="Migrations\201408130422031_Security.Designer.cs">
+      <DependentUpon>201408130422031_Security.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408130432002_RemoveUSers.cs" />
+    <Compile Include="Migrations\201408130432002_RemoveUSers.Designer.cs">
+      <DependentUpon>201408130432002_RemoveUSers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408130601074_OAuthTokenRefresh.cs" />
+    <Compile Include="Migrations\201408130601074_OAuthTokenRefresh.Designer.cs">
+      <DependentUpon>201408130601074_OAuthTokenRefresh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MoviesDataContext.cs" />
+    <Compile Include="ApplicationTypes.cs" />
+    <Compile Include="OAuthClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OAuthRefreshToken.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201408081323155_Initial.resx">
+      <DependentUpon>201408081323155_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408081351561_LookupResponses.resx">
+      <DependentUpon>201408081351561_LookupResponses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408081422321_NameField.resx">
+      <DependentUpon>201408081422321_NameField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408081512231_MovieScores.resx">
+      <DependentUpon>201408081512231_MovieScores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408090151530_LookupImportFields.resx">
+      <DependentUpon>201408090151530_LookupImportFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408090158003_ExtraMovieFields.resx">
+      <DependentUpon>201408090158003_ExtraMovieFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408121253423_Changes.resx">
+      <DependentUpon>201408121253423_Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408130127019_MovieLinkInScoring.resx">
+      <DependentUpon>201408130127019_MovieLinkInScoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408130138514_MovieScores1.resx">
+      <DependentUpon>201408130138514_MovieScores1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408130422031_Security.resx">
+      <DependentUpon>201408130422031_Security.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408130432002_RemoveUSers.resx">
+      <DependentUpon>201408130432002_RemoveUSers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408130601074_OAuthTokenRefresh.resx">
+      <DependentUpon>201408130601074_OAuthTokenRefresh.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudScale.Core\CloudScale.Core.csproj">
+      <Project>{18b3a40f-079e-4616-8950-0590f5ca2a5d}</Project>
+      <Name>CloudScale.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudScale.Movies.Models\CloudScale.Movies.Models.csproj">
+      <Project>{3524fc19-af05-46b3-bf7e-9d72ca02a183}</Project>
+      <Name>CloudScale.Movies.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

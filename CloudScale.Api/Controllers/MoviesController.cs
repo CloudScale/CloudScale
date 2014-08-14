@@ -71,6 +71,7 @@ namespace CloudScale.Api.Controllers
             {
                 movies.AddRange(db.Movies.Where(p => p.TMDBId != 0).OrderBy(p => p.OriginalTitle).ToList());
             }
+
             return movies;
         }
 
@@ -99,8 +100,9 @@ namespace CloudScale.Api.Controllers
 
         [Route("random")]
         [HttpGet]
-        public async Task<Movie> GetRandomMovie()
+        public async Task<MovieViewModel> GetRandomMovie()
         {
+            Guid userId = (Guid)ActionContext.Request.Properties["UserId"];
             Random random = new Random(DateTimeOffset.Now.Millisecond);
 
             return await Task.Run(() =>
@@ -108,8 +110,22 @@ namespace CloudScale.Api.Controllers
                 IEnumerable<Movie> list = GetRandomMovies();
 
                 int skip = random.Next(list.Count());
+                Movie movie = list.Skip(skip).FirstOrDefault();
 
-                return list.Skip(skip).FirstOrDefault();
+                MovieScore movieScore = db.MovieScores.FirstOrDefault(p => p.MovieId == movie.Id && p.UserId == userId);
+
+                MovieViewModel viewModel = new MovieViewModel();
+                
+                viewModel.Id = movie.Id;
+                viewModel.Title = movie.OriginalTitle;
+                viewModel.Rating = movie.Rating;
+                viewModel.PosterPath = movie.PosterPath;
+                viewModel.BackdropPath = movie.BackdropPath;
+
+                if (movieScore != null)
+                    viewModel.UserRating = movieScore.Score; 
+
+                return viewModel;
             });
         }
     }

@@ -44,6 +44,7 @@
     <Compile Include="Movie.cs" />
     <Compile Include="MovieLookupResults.cs" />
     <Compile Include="MovieScore.cs" />
+    <Compile Include="MovieViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TMDBLookupResult.cs" />
   </ItemGroup>

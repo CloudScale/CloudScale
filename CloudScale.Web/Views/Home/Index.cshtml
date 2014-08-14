@@ -19,7 +19,7 @@
             ko.applyBindings(viewModel);
 
             PNotify.prototype.options.styling = "bootstrap3";
-
+            
             viewModel.GetRandomMovie();
 
             // set up SignalR
@@ -58,10 +58,8 @@
     </script>
 }
 
-<div class="container">
     <h1>Movies</h1>
     <div class="row">
-
         <div class="col-lg-4">
             <div class="form-group">
                 <label>Search Movies</label>
@@ -80,17 +78,22 @@
             </div>
         </div>
 
-        <div class="col-lg-8">
+        <div class="col-lg-8 panel panel-body" data-bind="visible: !IsAuth()">
+            <h1>Please log in to access this site</h1>
+        </div>
+
+        <div class="col-lg-8" data-bind="visible: IsAuth">
             <div data-bind="with: CurrentMovie">
                 <h3 data-bind="text: Name"></h3>
                 <img data-bind="attr:{src: Poster}" />
+                <h4 data-bind="visible: Rating">Your Rating: <span data-bind="text: Rating"></span></h4>
             </div>
 
             <p>
 
             </p>
 
-            <div class="btn-toolbar text-center" data-bind="visible: IsAuth">
+            <div class="btn-toolbar text-center">
                 <div class=" btn-group">
                     <button type="button" class="btn btn-default" data-bind="click: GetRandomMovie">X</button>
                 </div>
@@ -104,10 +107,9 @@
             </div>
         </div>
     </div>
-</div>
 
-<div class="well" data-bind="visible: Movies">
-    <div class="row" data-bind="foreach: Movies">
-        <h3 data-bind="text: Name" />
+    <div class="col-lg-12" data-bind="visible: Movies">
+        <div class="row" data-bind="foreach: Movies">
+            <h3 data-bind="text: Name" />
+        </div>
     </div>
-</div>

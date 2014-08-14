@@ -24,13 +24,15 @@ var CloudScale;
     CloudScale.RegisterUser = RegisterUser;
 
     var Movie = (function () {
-        function Movie(id, name, img) {
+        function Movie(id, name, img, rating) {
             this.Id = ko.observable(null);
             this.Name = ko.observable(null);
             this.Poster = ko.observable(null);
+            this.Rating = ko.observable(null);
             this.Id(id);
             this.Name(name);
             this.Poster(img);
+            this.Rating(rating);
         }
         return Movie;
     })();
@@ -84,15 +86,17 @@ var CloudScale;
                 type: 'get',
                 contentType: 'application/json',
                 success: function (m) {
-                    if (m === null) {
+                    if (m == null) {
                     } else {
                         var url = "http://image.tmdb.org/t/p/w154";
-                        self.CurrentMovie(new CloudScale.Movie(m.id, m.originalTitle, url + m.posterPath));
+                        self.CurrentMovie(new CloudScale.Movie(m.id, m.title, url + m.posterPath, m.userRating));
                     }
 
                     self.IsLoading(false);
                 },
                 error: function (response) {
+                    new PNotify({ title: 'error getting random movie' });
+
                     self.IsLoading(false);
                 },
                 beforeSend: function (xhr) {
@@ -188,6 +192,8 @@ var CloudScale;
                     self.GetRandomMovie();
                 },
                 error: function (response) {
+                    new PNotify({ title: 'error logging in.', text: 'please seek help.' });
+
                     self.IsAuth(false);
                     self.IsLoading(false);
                 }
@@ -197,8 +203,9 @@ var CloudScale;
         MainViewModel.prototype.Logout = function () {
             var self = this;
 
-            self.IsAuth(false);
             localStorage.setItem('token', null);
+
+            self.IsAuth(false);
         };
 
         MainViewModel.prototype.Register = function () {
@@ -211,14 +218,13 @@ var CloudScale;
                 type: 'post',
                 data: new CloudScale.RegisterUser('Shaw', 'secret', 'secret'),
                 success: function (response) {
-                    console.log('success: ' + response.responseJSON);
-
+                    new PNotify({ title: 'registration successful', text: 'please log in.' });
                     self.IsLoading(false);
                 },
                 error: function (response) {
                     var error = response.responseJSON;
-                    console.log('error: ' + error.message);
-                    console.log('description: ' + error.modelState[""][0]);
+
+                    new PNotify({ title: 'registration failed', text: error.modelState[""][0] });
 
                     self.IsLoading(false);
                 }
@@ -238,13 +244,10 @@ var CloudScale;
                     var url = "http://image.tmdb.org/t/p/w154";
 
                     var mappedMovies = $.map(allData, function (item) {
-                        console.log(item);
-                        return new CloudScale.Movie(item.Id, item.Name, url + item.PosterPath);
+                        return new CloudScale.Movie(item.id, item.originalTitle, url + item.posterPath, 0);
                     });
 
                     self.Movies(mappedMovies);
-
-                    console.log(mappedMovies);
 
                     self.SearchString(null);
                     self.IsLoading(false);

@@ -17,6 +17,7 @@ namespace CloudScale.Movies.Models
 
         public MovieScore()
         {
+            Id = Guid.NewGuid();
             TimeLogged = DateTimeOffset.UtcNow;
         }
     }

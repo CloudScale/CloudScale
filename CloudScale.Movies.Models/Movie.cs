@@ -33,6 +33,7 @@ namespace CloudScale.Movies.Models
         /// </summary>
         public Movie()
         {
+            Id = Guid.NewGuid();
         }
     }
 }

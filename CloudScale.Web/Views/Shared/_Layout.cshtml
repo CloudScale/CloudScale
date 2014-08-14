@@ -16,11 +16,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("CloudScale", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("CloudScale Movies", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-small" })</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        @Html.ActionLink("Register", "Index", "Home", null, new Dictionary<string, Object> { { "class", "btn btn-small" }, { "data-bind", "click: Register" } })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Login", "Index", "Home", null, new Dictionary<string, Object> { { "class", "btn btn-small" }, { "data-bind", "click: Login" } })
+                    </li>
                 </ul>
             </div>
         </div>

@@ -32,6 +32,7 @@
       <Setting name="WebHost" />
       <Setting name="ApiHost" />
       <Setting name="SignalRHost" />
+      <Setting name="MoviesDataContext" />
     </ConfigurationSettings>
     <LocalResources>
       <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />

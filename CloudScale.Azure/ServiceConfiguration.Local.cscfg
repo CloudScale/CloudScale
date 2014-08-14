@@ -8,6 +8,7 @@
       <Setting name="WebHost" value="http://localhost:81" />
       <Setting name="ApiHost" value="http://localhost:82" />
       <Setting name="SignalRHost" value="http://localhost:83" />
+      <Setting name="MoviesDataContext" value="Data Source=(local);Initial Catalog=CloudScaleMovies;Integrated Security=True" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

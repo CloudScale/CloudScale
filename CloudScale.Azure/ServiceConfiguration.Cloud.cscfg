@@ -8,6 +8,7 @@
       <Setting name="WebHost" value="http://movies.devopsnirvana.com/" />
       <Setting name="ApiHost" value="http://api.movies.devopsnirvana.com/" />
       <Setting name="SignalRHost" value="http://signalr.movies.devopsnirvana.com/" />
+      <Setting name="MoviesDataContext" value="Data Source=(local);Initial Catalog=CloudScaleMovies;Integrated Security=True" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

@@ -6,7 +6,11 @@
     var apiHost = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("ApiHost");
     var signalrHost = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("SignalRHost");
 }
-
+<style type="text/css">
+    .hidden {
+        display: none;
+    }
+</style>
 @section scripts
 {
     <script src="@signalrHost/scripts/jquery.signalR-2.1.1.min.js"></script>
@@ -14,13 +18,13 @@
     <script src="~/ViewModels/MainViewModel.js"></script>
     <script type="text/javascript">
         (function () {
-            var viewModel = new CloudScale.MainViewModel('@apiHost', '20581a70-11bf-433c-9a7f-3198e1501757');
+            var viewModel = new CloudScale.MainViewModel('@apiHost');
 
             ko.applyBindings(viewModel);
 
-            PNotify.prototype.options.styling = "bootstrap3";
-            
             viewModel.GetRandomMovie();
+
+            PNotify.prototype.options.styling = "bootstrap3";
 
             // set up SignalR
             $.connection.hub.url = "@signalrHost/signalr";
@@ -58,58 +62,93 @@
     </script>
 }
 
-    <h1>Movies</h1>
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="form-group">
-                <label>Search Movies</label>
-                <input type="text" data-bind="enable: IsAuth, value: SearchString, valueUpdate: 'afterkeydown'" />
-                <input class="btn btn-primary" type="button" data-bind="enable: SearchString, click: SearchMovie" value="Search" />
-            </div>
-
-            <div class="form-group">
-                <label>Add Movie</label>
-                <input type="text" data-bind="enable: IsAuth, value: AddString, valueUpdate: 'afterkeydown'" />
-                <input class="btn btn-primary" type="button" data-bind="enable: AddString, click: AddMovie" value="Add" />
-            </div>
-
-            <div class="form-group">
-                <input class="btn btn-primary" type="button" data-bind="enable: IsAuth, click: GetRandomMovie" value="Get Movie" />
-            </div>
+<h1>Movies</h1>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label>Search Movies</label>
+            <input type="text" data-bind="enable: IsAuth, value: SearchString, valueUpdate: 'afterkeydown'" />
+            <input class="btn btn-primary" type="button" data-bind="enable: SearchString, click: SearchMovie" value="Search" />
         </div>
 
-        <div class="col-lg-8 panel panel-body" data-bind="visible: !IsAuth()">
-            <h1>Please log in to access this site</h1>
+        <div class="form-group">
+            <label>Add Movie</label>
+            <input type="text" data-bind="enable: IsAuth, value: AddString, valueUpdate: 'afterkeydown'" />
+            <input class="btn btn-primary" type="button" data-bind="enable: AddString, click: AddMovie" value="Add" />
         </div>
 
-        <div class="col-lg-8" data-bind="visible: IsAuth">
-            <div data-bind="with: CurrentMovie">
-                <h3 data-bind="text: Name"></h3>
-                <img data-bind="attr:{src: Poster}" />
-                <h4 data-bind="visible: Rating">Your Rating: <span data-bind="text: Rating"></span></h4>
-            </div>
-
-            <p>
-
-            </p>
-
-            <div class="btn-toolbar text-center">
-                <div class=" btn-group">
-                    <button type="button" class="btn btn-default" data-bind="click: GetRandomMovie">X</button>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" data-bind="click: Vote">1</button>
-                    <button type="button" class="btn btn-default" data-bind="click: Vote">2</button>
-                    <button type="button" class="btn btn-default" data-bind="click: Vote">3</button>
-                    <button type="button" class="btn btn-default" data-bind="click: Vote">4</button>
-                    <button type="button" class="btn btn-default" data-bind="click: Vote">5</button>
-                </div>
-            </div>
+        <div class="form-group">
+            <input class="btn btn-primary" type="button" data-bind="click: GetRandomMovie, enable: IsAuth" value="Get Movie" />
         </div>
     </div>
 
-    <div class="col-lg-12" data-bind="visible: Movies">
-        <div class="row" data-bind="foreach: Movies">
-            <h3 data-bind="text: Name" />
+    <div class="col-lg-8 panel panel-body hidden" data-bind="css: { hidden: IsAuth() || ShowLogin() || ShowRegister() }">
+        <h1>Please log in to access this site</h1>
+    </div>
+
+    <div class="col-lg-8 panel panel-body hidden" data-bind="css: { hidden: !ShowLogin() }">
+        <fieldset>
+            <label class="col-lg-3">User Name:</label>
+
+            <input class="col-lg-3" type="text" data-bind="value: UserName" />
+        </fieldset>
+
+        <fieldset>
+            <label class="col-lg-3">Password:</label>
+
+            <input class="col-lg-3" type="password" data-bind="value: Password" />
+        </fieldset>
+
+        <fieldset>
+            <button class="btn btn-primary" data-bind="click: Login">Login</button>
+        </fieldset>
+    </div>
+
+    <div class="col-lg-8 panel panel-body hidden" data-bind="css: { hidden: !ShowRegister() }">
+        <div>
+            <label>User Name:</label>
+            <input type="text" data-bind="value: UserName" />
+        </div>
+
+        <div>
+            <label>Password:</label>
+            <input type="password" data-bind="value: Password" />
+        </div>
+
+        <div>
+            <label>Confirm:</label>
+            <input type="password" data-bind="value: ConfirmPassword" />
+        </div>
+
+        <div>
+            <button class="btn btn-primary" data-bind="click: Register">Register</button>
         </div>
     </div>
+
+    <div class="col-lg-8 hidden" data-bind="css: { hidden: !IsAuth() }">
+        <div data-bind="with: CurrentMovie">
+            <h3 data-bind="text: Name"></h3>
+            <img data-bind="attr:{src: Poster}" />
+            <h4 data-bind="visible: Rating()">Your Rating: <span data-bind="text: Rating"></span></h4>
+
+        </div>
+        <div class="btn-toolbar text-center">
+            <div class=" btn-group">
+                <button type="button" class="btn btn-default" data-bind="click: GetRandomMovie">X</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" data-bind="click: Vote">1</button>
+                <button type="button" class="btn btn-default" data-bind="click: Vote">2</button>
+                <button type="button" class="btn btn-default" data-bind="click: Vote">3</button>
+                <button type="button" class="btn btn-default" data-bind="click: Vote">4</button>
+                <button type="button" class="btn btn-default" data-bind="click: Vote">5</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12" data-bind="visible: Movies">
+    <div class="row" data-bind="foreach: Movies">
+        <h3 data-bind="text: Name" />
+    </div>
+</div>

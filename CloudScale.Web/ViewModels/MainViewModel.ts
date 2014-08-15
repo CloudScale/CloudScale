@@ -64,13 +64,24 @@ module CloudScale {
         public AddString: KnockoutObservable<string> = ko.observable<string>(null);
         public SearchString: KnockoutObservable<string> = ko.observable<string>(null);
 
+        public UserName: KnockoutObservable<string> = ko.observable<string>(null);
+        public Password: KnockoutObservable<string> = ko.observable<string>(null);
+        public ConfirmPassword: KnockoutObservable<string> = ko.observable<string>(null);
+
         public IsLoading: KnockoutObservable<boolean> = ko.observable<boolean>(false);
         public IsAuth: KnockoutObservable<boolean> = ko.observable<boolean>(false);
+
+        public ShowLogin: KnockoutObservable<boolean> = ko.observable<boolean>(false);
+        public ShowRegister: KnockoutObservable<boolean> = ko.observable<boolean>(false);
 
         private baseUrl: string;
 
         constructor(baseApiUrl: string) {
             this.baseUrl = baseApiUrl;
+
+            var self = this;
+
+            self.IsAuth(false);
 
             var token = JSON.parse(localStorage.getItem('token'));
 
@@ -86,7 +97,6 @@ module CloudScale {
             var self = this;
 
             var token = JSON.parse(localStorage.getItem('token'));
-
             if (token == null)
                 return;
 
@@ -98,9 +108,11 @@ module CloudScale {
                 contentType: 'application/json',
                 success: function (m) {
                     if (m == null) {
+
                     } else {
-                        var url = "http://image.tmdb.org/t/p/w154";
-                        self.CurrentMovie(new Movie(m.id, m.title, url + m.posterPath, m.userRating));
+                        var imgUrl = "http://image.tmdb.org/t/p/w154";
+
+                        self.CurrentMovie(new Movie(m.id, m.title, imgUrl + m.posterPath, m.userRating));
                     }
 
                     self.IsLoading(false);
@@ -185,6 +197,13 @@ module CloudScale {
             });
         }
 
+        public DoLogin() {
+            var self = this;
+
+            self.ShowLogin(true);
+            self.ShowRegister(false);
+        }
+
         public Login() {
             var self = this;
 
@@ -193,13 +212,15 @@ module CloudScale {
             $.ajax({
                 url: self.baseUrl + '/token',
                 type: 'post',
-                data: new LoginUser('Shaw', 'secret'),
+                data: new LoginUser(self.UserName(), self.Password()),
                 success: function (response) {
                     localStorage.setItem('token', JSON.stringify(response));
 
                     self.IsAuth(true);
+                    self.UserName(null);
+                    self.Password(null);
                     self.IsLoading(false);
-
+                   
                     self.GetRandomMovie();
                 },
                 error: function (response) {
@@ -209,6 +230,8 @@ module CloudScale {
                     self.IsLoading(false);
                 }
             });
+
+            self.ShowLogin(false);
         }
 
         public Logout() {
@@ -219,6 +242,14 @@ module CloudScale {
             self.IsAuth(false);
         }
 
+        public DoRegister()
+        {
+            var self = this;
+
+            self.ShowRegister(true);
+            self.ShowLogin(false);
+        }
+
         public Register() {
             var self = this;
 
@@ -227,19 +258,21 @@ module CloudScale {
             $.ajax({
                 url: self.baseUrl + '/account/register',
                 type: 'post',
-                data: new RegisterUser('Shaw', 'secret', 'secret'),
+                data: new RegisterUser(self.UserName(), self.Password(), self.ConfirmPassword()),
                 success: function (response) {
                     new PNotify({ title: 'registration successful', text: 'please log in.' });
                     self.IsLoading(false);
                 },
                 error: function (response) {
                     var error = response.responseJSON;
-
-                    new PNotify({ title: 'registration failed', text: error.modelState[""][0] });
+                    console.log(error);
+                    new PNotify({ title: 'registration failed', text: error });
 
                     self.IsLoading(false);
                 }
             });
+
+            self.ShowRegister(false);
         }
 
         public SearchMovie() {

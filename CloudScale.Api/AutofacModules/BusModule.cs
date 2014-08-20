@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using Autofac.Integration.WebApi;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Nimbus;
@@ -34,6 +34,8 @@ namespace CloudScale.Api.AutofacModules
             var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, moviesAssembly);
 
             builder.RegisterNimbus(handlerTypesProvider);
+
+            //Nimbus.Configuration.Settings.
 
             builder.Register(componentContext => new BusBuilder()
                                  .Configure()

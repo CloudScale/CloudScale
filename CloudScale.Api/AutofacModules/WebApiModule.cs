@@ -23,6 +23,10 @@ namespace CloudScale.Api.AutofacModules
                     .AsWebApiAuthenticationFilterFor<MoviesController>()
                     .InstancePerRequest();
 
+            builder.RegisterType<StatsdActionFilter>()
+                    .AsWebApiActionFilterFor<MoviesController>()
+                    .InstancePerRequest();
+
             // Register the Web API controllers.
             builder.RegisterApiControllers(ThisAssembly).InstancePerRequest();
             builder.RegisterWebApiFilterProvider(GlobalConfiguration.Configuration);

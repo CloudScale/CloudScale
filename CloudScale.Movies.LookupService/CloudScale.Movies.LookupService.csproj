@@ -34,8 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.5.0\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -71,13 +72,15 @@
     <Reference Include="Nimbus.Autofac">
       <HintPath>..\packages\Nimbus.Autofac.1.3.0.2\lib\net45\Nimbus.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.InfrastructureContracts">
+    <Reference Include="Nimbus.InfrastructureContracts, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nimbus.InfrastructureContracts.1.3.0.2\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
     </Reference>
     <Reference Include="Nimbus.Logger.Serilog">
       <HintPath>..\packages\Nimbus.Logger.Serilog.1.3.0.2\lib\net45\Nimbus.Logger.Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.MessageContracts">
+    <Reference Include="Nimbus.MessageContracts, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nimbus.MessageContracts.1.3.0.2\lib\net45\Nimbus.MessageContracts.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">

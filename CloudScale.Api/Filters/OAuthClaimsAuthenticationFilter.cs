@@ -11,9 +11,18 @@ namespace CloudScale.Api.Filters
 {
     public class OAuthClaimsAuthenticationFilter : IAutofacAuthenticationFilter
     {
+        private readonly StatsdClient.IStatsd statsd;
+
+        public OAuthClaimsAuthenticationFilter(StatsdClient.IStatsd statsd)
+        {
+            this.statsd = statsd;            
+        }
 
         public void OnAuthenticate(HttpAuthenticationContext context)
         {
+            if (statsd != null && (context.Principal == null || !context.Principal.Identity.IsAuthenticated))
+                statsd.LogCount("action." + context.ActionContext.ActionDescriptor.ActionName.ToLower() + ".failedauth");
+
             if (context.Principal != null
                 && context.Principal.Identity.IsAuthenticated
                 && context.Principal is ClaimsPrincipal)

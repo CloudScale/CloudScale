@@ -41,8 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.5.0\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Owin">
       <HintPath>..\packages\Autofac.Owin.3.0.1\lib\net45\Autofac.Integration.Owin.dll</HintPath>
@@ -127,13 +128,15 @@
     <Reference Include="Nimbus.Autofac">
       <HintPath>..\packages\Nimbus.Autofac.1.3.0.2\lib\net45\Nimbus.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.InfrastructureContracts">
+    <Reference Include="Nimbus.InfrastructureContracts, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nimbus.InfrastructureContracts.1.3.0.2\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
     </Reference>
     <Reference Include="Nimbus.Logger.Serilog">
       <HintPath>..\packages\Nimbus.Logger.Serilog.1.3.0.2\lib\net45\Nimbus.Logger.Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.MessageContracts">
+    <Reference Include="Nimbus.MessageContracts, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nimbus.MessageContracts.1.3.0.2\lib\net45\Nimbus.MessageContracts.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
@@ -144,6 +147,9 @@
     </Reference>
     <Reference Include="Serilog.FullNetFx">
       <HintPath>..\packages\Serilog.1.3.43\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
+    <Reference Include="StatsdClient">
+      <HintPath>..\packages\StatsdCsharpClient.1.2.1.0\lib\net45\StatsdClient.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -201,12 +207,14 @@
     <Compile Include="App_Start\OAuthConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AutofacModules\BusModule.cs" />
+    <Compile Include="AutofacModules\StatsModule.cs" />
     <Compile Include="AutofacModules\AuthModule.cs" />
     <Compile Include="AutofacModules\DbModule.cs" />
     <Compile Include="AutofacModules\WebApiModule.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\RefreshTokensController.cs" />
+    <Compile Include="Filters\StatsdActionFilter.cs" />
     <Compile Include="Filters\OAuthClaimsAuthenticationFilter.cs" />
     <Compile Include="Handlers\PingHandler.cs" />
     <Compile Include="Helpers\OAuthHelper.cs" />

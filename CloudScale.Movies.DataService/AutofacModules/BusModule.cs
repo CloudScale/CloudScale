@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using Nimbus;
 using Nimbus.Configuration;
 using Nimbus.Infrastructure;

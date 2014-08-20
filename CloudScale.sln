@@ -16,11 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AC9F2C
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".data", ".data", "{E7DF7DD7-BCBE-431C-9895-F9A1F84CA756}"
-	ProjectSection(SolutionItems) = preProject
-		MoviesForThomas.txt = MoviesForThomas.txt
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{28706720-65E7-4109-906E-51F856D796EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.Movies.Messages", "CloudScale.Movies.Messages\CloudScale.Movies.Messages.csproj", "{47F5361C-E192-4505-94FA-C663FBC7E158}"

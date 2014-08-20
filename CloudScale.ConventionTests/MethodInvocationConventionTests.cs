@@ -8,6 +8,7 @@ using Mono.Cecil;
 using System.Collections;
 using System.Reflection;
 using Shouldly;
+using System.Text.RegularExpressions;
 
 namespace CloudScale.ConventionTests
 {
@@ -19,7 +20,8 @@ namespace CloudScale.ConventionTests
             UriBuilder uri = new UriBuilder(type.Assembly.CodeBase);
             string path = Uri.UnescapeDataString(uri.Path);
             AssemblyDefinition assemblyDefinition = AssemblyDefinition.ReadAssembly(path);
-            TypeDefinition vm = assemblyDefinition.Modules.SelectMany(m => m.GetTypes().Where(p => p.FullName == type.FullName)).Single();
+            var vms = assemblyDefinition.Modules.SelectMany(m => m.GetTypes().Where(p => p.GetType() == type));
+            var vm = vms.FirstOrDefault();
             int referenceCount = vm.Methods.Where(p => p.HasBody)
                                            .SelectMany(p => p.Body.Instructions.Where(i => i.OpCode.Code == Mono.Cecil.Cil.Code.Call &&
                                                        ((Mono.Cecil.MethodReference)i.Operand).DeclaringType.FullName.Equals(undesiredTypeName))).Count();

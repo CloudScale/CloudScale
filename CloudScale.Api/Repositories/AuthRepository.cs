@@ -1,12 +1,11 @@
-﻿using CloudScale.Api.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
+using CloudScale.Api.Models;
 using CloudScale.Movies.Data;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CloudScale.Api.Repositories
 {
@@ -22,14 +21,20 @@ namespace CloudScale.Api.Repositories
             this.userManager = userManager;
         }
 
+        public void Dispose()
+        {
+            db.Dispose();
+            userManager.Dispose();
+        }
+
         public async Task<IdentityResult> RegisterUser(RegisterUserModel userModel)
         {
-            IdentityUser user = new IdentityUser
+            var user = new IdentityUser
             {
                 UserName = userModel.UserName
             };
 
-            var result = await userManager.CreateAsync(user, userModel.Password);
+            IdentityResult result = await userManager.CreateAsync(user, userModel.Password);
 
             return result;
         }
@@ -43,19 +48,20 @@ namespace CloudScale.Api.Repositories
 
         public OAuthClient FindClient(string clientId)
         {
-            var client = db.OAuthClients.Find(clientId);
+            OAuthClient client = db.OAuthClients.Find(clientId);
 
             return client;
         }
 
         public async Task<bool> AddRefreshToken(OAuthRefreshToken token)
         {
-
-            var existingToken = db.OAuthRefreshTokens.Where(r => r.Subject == token.Subject && r.ClientId == token.ClientId).SingleOrDefault();
+            OAuthRefreshToken existingToken =
+                db.OAuthRefreshTokens.Where(r => r.Subject == token.Subject && r.ClientId == token.ClientId)
+                    .SingleOrDefault();
 
             if (existingToken != null)
             {
-                var result = await RemoveRefreshToken(existingToken);
+                bool result = await RemoveRefreshToken(existingToken);
             }
 
             db.OAuthRefreshTokens.Add(token);
@@ -65,7 +71,7 @@ namespace CloudScale.Api.Repositories
 
         public async Task<bool> RemoveRefreshToken(string refreshTokenId)
         {
-            var token = await db.OAuthRefreshTokens.FindAsync(refreshTokenId);
+            OAuthRefreshToken token = await db.OAuthRefreshTokens.FindAsync(refreshTokenId);
 
             if (token != null)
             {
@@ -85,7 +91,7 @@ namespace CloudScale.Api.Repositories
 
         public async Task<OAuthRefreshToken> FindRefreshToken(string tokenId)
         {
-            var OAuthRefreshToken = await db.OAuthRefreshTokens.FindAsync(tokenId);
+            OAuthRefreshToken OAuthRefreshToken = await db.OAuthRefreshTokens.FindAsync(tokenId);
 
             return OAuthRefreshToken;
         }
@@ -104,23 +110,16 @@ namespace CloudScale.Api.Repositories
 
         public async Task<IdentityResult> CreateAsync(IdentityUser user)
         {
-            var result = await userManager.CreateAsync(user);
+            IdentityResult result = await userManager.CreateAsync(user);
 
             return result;
         }
 
         public async Task<IdentityResult> AddLoginAsync(string userId, UserLoginInfo login)
         {
-            var result = await userManager.AddLoginAsync(userId, login);
+            IdentityResult result = await userManager.AddLoginAsync(userId, login);
 
             return result;
-        }
-
-        public void Dispose()
-        {
-            db.Dispose();
-            userManager.Dispose();
-
         }
     }
 }

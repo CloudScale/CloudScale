@@ -1,11 +1,8 @@
+using System.Threading.Tasks;
 using CloudScale.Movies.Messages;
 using CloudScale.SignalR.Hubs;
 using Microsoft.AspNet.SignalR;
 using Nimbus.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CloudScale.Movies.DataService.Handlers
 {
@@ -15,7 +12,7 @@ namespace CloudScale.Movies.DataService.Handlers
 
         public NewMovieHandler()
         {
-            this.movieHub = GlobalHost.ConnectionManager.GetHubContext<MovieHub>();
+            movieHub = GlobalHost.ConnectionManager.GetHubContext<MovieHub>();
         }
 
         public async Task Handle(NewMovieEvent busEvent)

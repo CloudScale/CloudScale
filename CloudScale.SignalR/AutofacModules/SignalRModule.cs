@@ -1,7 +1,4 @@
 using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Autofac.Integration.SignalR;
 
 namespace CloudScale.SignalR.AutofacModules
@@ -13,7 +10,7 @@ namespace CloudScale.SignalR.AutofacModules
             base.Load(builder);
 
             // Register the SignalR hubs.
-            
+
             builder.RegisterHubs(ThisAssembly);
         }
     }

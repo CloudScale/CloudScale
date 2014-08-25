@@ -1,10 +1,7 @@
-﻿using Autofac.Integration.WebApi;
-using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
+﻿using System.Diagnostics;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
+using Autofac.Integration.WebApi;
 using StatsdClient;
 
 namespace CloudScale.Api.Filters
@@ -19,17 +16,19 @@ namespace CloudScale.Api.Filters
             this.statsd = statsd;
         }
 
-        public void OnActionExecuted(System.Web.Http.Filters.HttpActionExecutedContext actionExecutedContext)
+        public void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
             watch.Stop();
             if (statsd != null)
             {
                 statsd.LogCount("action." + actionExecutedContext.ActionContext.ActionDescriptor.ActionName.ToLower());
-                statsd.LogTiming("action." + actionExecutedContext.ActionContext.ActionDescriptor.ActionName.ToLower() + ".timing", watch.Elapsed);
+                statsd.LogTiming(
+                    "action." + actionExecutedContext.ActionContext.ActionDescriptor.ActionName.ToLower() + ".timing",
+                    watch.Elapsed);
             }
         }
 
-        public void OnActionExecuting(System.Web.Http.Controllers.HttpActionContext actionContext)
+        public void OnActionExecuting(HttpActionContext actionContext)
         {
             watch.Start();
         }

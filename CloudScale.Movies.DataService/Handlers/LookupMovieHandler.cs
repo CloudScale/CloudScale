@@ -1,13 +1,10 @@
+using System.Threading.Tasks;
 using CloudScale.Movies.Data;
 using CloudScale.Movies.Messages;
+using CloudScale.Movies.Models;
 using Nimbus;
 using Nimbus.Handlers;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudScale.Movies.DataService.Handlers
 {
@@ -17,7 +14,7 @@ namespace CloudScale.Movies.DataService.Handlers
         private readonly IMoviesDataContext db;
 
         /// <summary>
-        /// Initializes a new instance of the NewMovieHandler class.
+        ///     Initializes a new instance of the NewMovieHandler class.
         /// </summary>
         public LookupMovieHandler(IBus bus, IMoviesDataContext db)
         {
@@ -29,7 +26,7 @@ namespace CloudScale.Movies.DataService.Handlers
         {
             Log.Information("Processing Looked Up Movie {Movie}", busEvent.Id);
 
-            db.MovieLookupResults.Add(new Models.MovieLookupResults
+            db.MovieLookupResults.Add(new MovieLookupResults
             {
                 Id = busEvent.Id,
                 Name = busEvent.Name,

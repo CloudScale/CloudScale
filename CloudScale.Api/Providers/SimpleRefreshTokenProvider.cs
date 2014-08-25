@@ -1,15 +1,10 @@
-﻿using Autofac;
+﻿using System;
+using System.Threading.Tasks;
+using System.Web.Http;
+using CloudScale.Api.Helpers;
 using CloudScale.Api.Repositories;
 using CloudScale.Movies.Data;
 using Microsoft.Owin.Security.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Autofac.Integration.Owin;
-using CloudScale.Api.Helpers;
-using System.Web.Http;
 
 namespace CloudScale.Api.Providers
 {
@@ -17,20 +12,23 @@ namespace CloudScale.Api.Providers
     {
         public async Task CreateAsync(AuthenticationTokenCreateContext context)
         {
-            var clientid = context.Ticket.Properties.Dictionary["as:client_id"];
+            string clientid = context.Ticket.Properties.Dictionary["as:client_id"];
 
             if (string.IsNullOrEmpty(clientid))
             {
                 return;
             }
 
-            var refreshTokenId = Guid.NewGuid().ToString("n");
+            string refreshTokenId = Guid.NewGuid().ToString("n");
 
-            using (AuthRepository repo = (AuthRepository)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(AuthRepository)))
+            using (
+                var repo =
+                    (AuthRepository)
+                        GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (AuthRepository)))
             {
                 var refreshTokenLifeTime = context.OwinContext.Get<string>("as:clientRefreshTokenLifeTime");
 
-                var token = new OAuthRefreshToken()
+                var token = new OAuthRefreshToken
                 {
                     Id = OAuthHelper.GetHash(refreshTokenId),
                     ClientId = clientid,
@@ -44,33 +42,34 @@ namespace CloudScale.Api.Providers
 
                 token.ProtectedTicket = context.SerializeTicket();
 
-                var result = await repo.AddRefreshToken(token);
+                bool result = await repo.AddRefreshToken(token);
 
                 if (result)
                 {
                     context.SetToken(refreshTokenId);
                 }
-
             }
         }
 
         public async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
         {
-
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
 
             string hashedTokenId = OAuthHelper.GetHash(context.Token);
 
-            using (AuthRepository repo = (AuthRepository)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(AuthRepository)))
+            using (
+                var repo =
+                    (AuthRepository)
+                        GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (AuthRepository)))
             {
-                var refreshToken = await repo.FindRefreshToken(hashedTokenId);
+                OAuthRefreshToken refreshToken = await repo.FindRefreshToken(hashedTokenId);
 
                 if (refreshToken != null)
                 {
                     //Get protectedTicket from refreshToken class
                     context.DeserializeTicket(refreshToken.ProtectedTicket);
-                    var result = await repo.RemoveRefreshToken(hashedTokenId);
+                    bool result = await repo.RemoveRefreshToken(hashedTokenId);
                 }
             }
         }

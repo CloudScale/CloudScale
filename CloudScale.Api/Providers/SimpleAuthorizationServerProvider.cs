@@ -1,25 +1,18 @@
-﻿using CloudScale.Api.Repositories;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security.OAuth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
-using Autofac.Integration.Owin;
-using Autofac;
-using CloudScale.Movies.Data;
-using Microsoft.Owin.Security;
-using CloudScale.Api.Helpers;
-using Microsoft.AspNet.Identity.Owin;
 using System.Web.Http;
+using CloudScale.Api.Helpers;
+using CloudScale.Api.Repositories;
+using CloudScale.Movies.Data;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
 
 namespace CloudScale.Api.Providers
 {
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
-
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             string clientId = string.Empty;
@@ -40,14 +33,18 @@ namespace CloudScale.Api.Providers
                 return Task.FromResult<object>(null);
             }
 
-            using (AuthRepository repo = (AuthRepository)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(AuthRepository)))
+            using (
+                var repo =
+                    (AuthRepository)
+                        GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (AuthRepository)))
             {
                 client = repo.FindClient(context.ClientId);
             }
 
             if (client == null)
             {
-                context.SetError("invalid_clientId", string.Format("Client '{0}' is not registered in the system.", context.ClientId));
+                context.SetError("invalid_clientId",
+                    string.Format("Client '{0}' is not registered in the system.", context.ClientId));
                 return Task.FromResult<object>(null);
             }
 
@@ -58,13 +55,10 @@ namespace CloudScale.Api.Providers
                     context.SetError("invalid_clientId", "Client secret should be sent.");
                     return Task.FromResult<object>(null);
                 }
-                else
+                if (client.Secret != OAuthHelper.GetHash(clientSecret))
                 {
-                    if (client.Secret != OAuthHelper.GetHash(clientSecret))
-                    {
-                        context.SetError("invalid_clientId", "Client secret is invalid.");
-                        return Task.FromResult<object>(null);
-                    }
+                    context.SetError("invalid_clientId", "Client secret is invalid.");
+                    return Task.FromResult<object>(null);
                 }
             }
 
@@ -74,8 +68,8 @@ namespace CloudScale.Api.Providers
                 return Task.FromResult<object>(null);
             }
 
-            context.OwinContext.Set<string>("as:clientAllowedOrigin", client.AllowedOrigin);
-            context.OwinContext.Set<string>("as:clientRefreshTokenLifeTime", client.RefreshTokenLifeTime.ToString());
+            context.OwinContext.Set("as:clientAllowedOrigin", client.AllowedOrigin);
+            context.OwinContext.Set("as:clientRefreshTokenLifeTime", client.RefreshTokenLifeTime.ToString());
 
             context.Validated();
             return Task.FromResult<object>(null);
@@ -87,10 +81,13 @@ namespace CloudScale.Api.Providers
 
             if (allowedOrigin == null) allowedOrigin = "*";
 
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
 
             IdentityUser user = null;
-            using (AuthRepository repo = (AuthRepository)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(AuthRepository)))
+            using (
+                var repo =
+                    (AuthRepository)
+                        GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (AuthRepository)))
             {
                 user = await repo.FindUser(context.UserName, context.Password);
 
@@ -108,17 +105,17 @@ namespace CloudScale.Api.Providers
             identity.AddClaim(new Claim(ClaimTypes.Sid, user.Id));
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
+            {
                 {
-                    { 
-                        "as:client_id", (context.ClientId == null) ? string.Empty : context.ClientId
-                    },
-                    { 
-                        "userName", context.UserName
-                    },
-                    {
-                        "sid", user.Id.ToString()
-                    }
-                });
+                    "as:client_id", (context.ClientId == null) ? string.Empty : context.ClientId
+                },
+                {
+                    "userName", context.UserName
+                },
+                {
+                    "sid", user.Id
+                }
+            });
 
             var ticket = new AuthenticationTicket(identity, props);
             context.Validated(ticket);
@@ -126,7 +123,7 @@ namespace CloudScale.Api.Providers
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
-            foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
+            foreach (var property in context.Properties.Dictionary)
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
@@ -137,8 +134,8 @@ namespace CloudScale.Api.Providers
 
         public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
-            var originalClient = context.Ticket.Properties.Dictionary["as:client_id"];
-            var currentClient = context.ClientId;
+            string originalClient = context.Ticket.Properties.Dictionary["as:client_id"];
+            string currentClient = context.ClientId;
 
             if (originalClient != currentClient)
             {

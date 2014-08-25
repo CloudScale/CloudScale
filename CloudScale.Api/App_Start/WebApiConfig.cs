@@ -1,12 +1,8 @@
-﻿using CloudScale.Api.Filters;
+﻿using System.Linq;
+using System.Net.Http.Formatting;
+using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 using Owin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Formatting;
-using System.Web.Cors;
-using System.Web.Http;
 
 namespace CloudScale.Api
 {
@@ -18,15 +14,12 @@ namespace CloudScale.Api
             config.MapHttpAttributeRoutes();
             config.EnableCors();
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-            
+            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional}
+                );
+
             //config.Filters.Add(new MyAuthenticationFilter());
 
-            var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+            JsonMediaTypeFormatter jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             app.UseAutofacWebApi(config);

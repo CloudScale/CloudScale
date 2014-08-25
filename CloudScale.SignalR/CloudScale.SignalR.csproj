@@ -180,6 +180,7 @@
     <Compile Include="Handlers\NewMovieHandler.cs" />
     <Compile Include="Handlers\PingHandler.cs" />
     <Compile Include="Hubs\AirlineHub.cs" />
+    <Compile Include="Hubs\DashboardHub.cs" />
     <Compile Include="Hubs\MovieHub.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

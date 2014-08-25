@@ -2,7 +2,6 @@
 /// <reference path="../scripts/typings/jquery.pnotify/jquery.pnotify.d.ts" />
 /// <reference path="../scripts/typings/knockout/knockout.d.ts" />
 /// <reference path="../scripts/typings/bootstrap/bootstrap.d.ts" />
-
 module CloudScale {
     export class Vote {
         MovieId: string;
@@ -106,7 +105,7 @@ module CloudScale {
                 url: self.baseUrl + '/movies/random',
                 type: 'get',
                 contentType: 'application/json',
-                success: function (m) {
+                success: function(m) {
                     if (m == null) {
 
                     } else {
@@ -117,12 +116,12 @@ module CloudScale {
 
                     self.IsLoading(false);
                 },
-                error: function (response) {
+                error: function(response) {
                     new PNotify({ title: 'error getting random movie' });
 
                     self.IsLoading(false);
                 },
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     var token = JSON.parse(localStorage.getItem('token'));
 
                     if (token != null) {
@@ -147,14 +146,14 @@ module CloudScale {
                 url: self.baseUrl + '/movies/vote',
                 type: 'post',
                 data: new Vote(self.CurrentMovie().Id(), vote),
-                success: function (m) {
+                success: function(m) {
                     self.GetRandomMovie();
                     self.IsLoading(false);
                 },
-                error: function (allData) {
+                error: function(allData) {
                     self.IsLoading(false);
                 },
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     var token = JSON.parse(localStorage.getItem('token'));
 
                     if (token != null) {
@@ -176,15 +175,15 @@ module CloudScale {
                 url: self.baseUrl + '/movies/new',
                 type: 'post',
                 data: { '': this.AddString() },
-                success: function (allData) {
+                success: function(allData) {
                     self.AddString(null);
                     self.IsLoading(false);
                 },
-                error: function (allData) {
+                error: function(allData) {
                     self.AddString(null);
                     self.IsLoading(false);
                 },
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     var token = JSON.parse(localStorage.getItem('token'));
 
                     if (token != null) {
@@ -213,17 +212,17 @@ module CloudScale {
                 url: self.baseUrl + '/token',
                 type: 'post',
                 data: new LoginUser(self.UserName(), self.Password()),
-                success: function (response) {
+                success: function(response) {
                     localStorage.setItem('token', JSON.stringify(response));
 
                     self.IsAuth(true);
                     self.UserName(null);
                     self.Password(null);
                     self.IsLoading(false);
-                   
+
                     self.GetRandomMovie();
                 },
-                error: function (response) {
+                error: function(response) {
                     new PNotify({ title: 'error logging in.', text: 'please seek help.' });
 
                     self.IsAuth(false);
@@ -242,8 +241,7 @@ module CloudScale {
             self.IsAuth(false);
         }
 
-        public DoRegister()
-        {
+        public DoRegister() {
             var self = this;
 
             self.ShowRegister(true);
@@ -259,11 +257,11 @@ module CloudScale {
                 url: self.baseUrl + '/account/register',
                 type: 'post',
                 data: new RegisterUser(self.UserName(), self.Password(), self.ConfirmPassword()),
-                success: function (response) {
+                success: function(response) {
                     new PNotify({ title: 'registration successful', text: 'please log in.' });
                     self.IsLoading(false);
                 },
-                error: function (response) {
+                error: function(response) {
                     var error = response.responseJSON;
                     console.log(error);
                     new PNotify({ title: 'registration failed', text: error });
@@ -284,11 +282,11 @@ module CloudScale {
             $.ajax({
                 url: searchUri,
                 type: 'get',
-                success: function (allData) {
+                success: function(allData) {
                     var url = "http://image.tmdb.org/t/p/w154";
 
-                    var mappedMovies = $.map(allData, function (item) {
-                        return new Movie(item.id, item.originalTitle, url + item.posterPath, 0)
+                    var mappedMovies = $.map(allData, function(item) {
+                        return new Movie(item.id, item.originalTitle, url + item.posterPath, 0);
                     });
 
                     self.Movies(mappedMovies);
@@ -296,11 +294,11 @@ module CloudScale {
                     self.SearchString(null);
                     self.IsLoading(false);
                 },
-                error: function (vm) {
+                error: function(vm) {
                     self.SearchString(null);
                     self.IsLoading(false);
                 },
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     var token = JSON.parse(localStorage.getItem('token'));
 
                     if (token != null) {

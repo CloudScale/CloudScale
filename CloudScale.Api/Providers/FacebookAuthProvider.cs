@@ -1,11 +1,6 @@
-using Microsoft.Owin.Security.Facebook;
-using Microsoft.Owin.Security.Google;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
+using Microsoft.Owin.Security.Facebook;
 
 namespace CloudScale.Api.Providers
 {

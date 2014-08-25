@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading;
-using Microsoft.WindowsAzure.ServiceRuntime;
 using Autofac;
+using Microsoft.WindowsAzure.ServiceRuntime;
 using Serilog;
 
 namespace CloudScale.Movies.LookupService
@@ -18,8 +15,8 @@ namespace CloudScale.Movies.LookupService
             Trace.TraceInformation("CloudScale.Movies.LookupService entry point called");
 
             var builder = new ContainerBuilder();
-            builder.RegisterAssemblyModules(typeof(WorkerRole).Assembly);
-            var container = builder.Build();
+            builder.RegisterAssemblyModules(typeof (WorkerRole).Assembly);
+            IContainer container = builder.Build();
 
             Thread.Sleep(Timeout.Infinite);
         }
@@ -30,9 +27,9 @@ namespace CloudScale.Movies.LookupService
             ServicePointManager.DefaultConnectionLimit = 12;
 
             Log.Logger = new LoggerConfiguration()
-                                    .WriteTo.ColoredConsole()
-                                    .WriteTo.Trace()
-                                    .CreateLogger();
+                .WriteTo.ColoredConsole()
+                .WriteTo.Trace()
+                .CreateLogger();
 
             return base.OnStart();
         }

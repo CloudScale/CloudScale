@@ -1,15 +1,14 @@
-﻿@{
+﻿@using Microsoft.WindowsAzure
+@{
     ViewBag.Title = "Home Page";
 
 
-    var webHost = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("WebHost");
-    var apiHost = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("ApiHost");
-    var signalrHost = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("SignalRHost");
+    string webHost = CloudConfigurationManager.GetSetting("WebHost");
+    string apiHost = CloudConfigurationManager.GetSetting("ApiHost");
+    string signalrHost = CloudConfigurationManager.GetSetting("SignalRHost");
 }
 <style type="text/css">
-    .hidden {
-        display: none;
-    }
+    .hidden { display: none; }
 </style>
 @section scripts
 {
@@ -17,7 +16,7 @@
     <script src="@signalrHost/signalr/hubs"></script>
     <script src="~/ViewModels/MainViewModel.js"></script>
     <script type="text/javascript">
-        (function () {
+        (function() {
             var viewModel = new CloudScale.MainViewModel('@apiHost');
 
             ko.applyBindings(viewModel);
@@ -31,7 +30,7 @@
 
             var hub = $.connection.movieHub;
 
-            hub.client.Ping = function () {
+            hub.client.Ping = function() {
                 new PNotify({
                     text: 'ping... pong...',
                     nonblock: {
@@ -39,9 +38,8 @@
                         nonblock_opacity: .2
                     }
                 });
-            }
-
-            hub.client.Notify = function (message) {
+            };
+            hub.client.Notify = function(message) {
                 new PNotify({
                     text: message,
                     nonblock: {
@@ -52,10 +50,9 @@
                         maxonscreen: 5
                     }
                 });
-            }
-
+            };
             $.connection.hub.logging = false;
-            $.connection.hub.start().done(function () {
+            $.connection.hub.start().done(function() {
                 // do stuff ?  register session id?
             });
         })();

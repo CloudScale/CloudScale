@@ -1,18 +1,11 @@
-using Nimbus.MessageContracts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CloudScale.Movies.Models;
+using Nimbus.MessageContracts;
 
 namespace CloudScale.Movies.Messages
 {
     public class GetMoviesResponse : IBusResponse
     {
-        public virtual List<Models.Movie> Movies { get; set; }
-        public GetMoviesResponse()
-        {
-
-        }
+        public virtual List<Movie> Movies { get; set; }
     }
 }

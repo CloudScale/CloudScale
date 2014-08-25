@@ -1,12 +1,8 @@
-﻿using CloudScale.Movies.Messages;
+﻿using System.Threading.Tasks;
+using CloudScale.Movies.Messages;
 using CloudScale.SignalR.Hubs;
 using Microsoft.AspNet.SignalR;
 using Nimbus.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudScale.SignalR.Handlers
 {
@@ -16,7 +12,7 @@ namespace CloudScale.SignalR.Handlers
 
         public PingHandler()
         {
-            this.movieHub = GlobalHost.ConnectionManager.GetHubContext<MovieHub>();
+            movieHub = GlobalHost.ConnectionManager.GetHubContext<MovieHub>();
         }
 
         public async Task<PingResponse> Handle(PingRequest request)
@@ -25,9 +21,9 @@ namespace CloudScale.SignalR.Handlers
 
             return await Task.Run(() =>
             {
-                return new PingResponse()
+                return new PingResponse
                 {
-                    Details = this.GetType() + " : " + this.GetType().Assembly.GetName().Version.ToString()
+                    Details = GetType() + " : " + GetType().Assembly.GetName().Version
                 };
             });
         }

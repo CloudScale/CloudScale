@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Web;
+using System.Text;
 
 namespace CloudScale.Api.Helpers
 {
@@ -12,7 +10,7 @@ namespace CloudScale.Api.Helpers
         {
             HashAlgorithm hashAlgorithm = new SHA256CryptoServiceProvider();
 
-            byte[] byteValue = System.Text.Encoding.UTF8.GetBytes(input);
+            byte[] byteValue = Encoding.UTF8.GetBytes(input);
 
             byte[] byteHash = hashAlgorithm.ComputeHash(byteValue);
 

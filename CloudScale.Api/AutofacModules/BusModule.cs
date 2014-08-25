@@ -1,15 +1,13 @@
+using System;
+using System.Reflection;
 using Autofac;
-using Autofac.Integration.WebApi;
-using Microsoft.WindowsAzure.ServiceRuntime;
+using CloudScale.Movies.Messages;
+using Microsoft.WindowsAzure;
 using Nimbus;
 using Nimbus.Configuration;
 using Nimbus.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Hosting;
-using Microsoft.WindowsAzure;
+using Nimbus.Logger.Serilog;
+using Module = Autofac.Module;
 
 namespace CloudScale.Api.AutofacModules
 {
@@ -23,13 +21,13 @@ namespace CloudScale.Api.AutofacModules
 
             // You'll want a logger. There's a ConsoleLogger and a NullLogger if you really don't care. You can roll your
             // own by implementing the ILogger interface if you want to hook it to an existing logging implementation.
-            builder.RegisterType<Nimbus.Logger.Serilog.SerilogStaticLogger>()
-                   .AsImplementedInterfaces()
-                   .SingleInstance();
+            builder.RegisterType<SerilogStaticLogger>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
 
             // This is how you tell Nimbus where to find all your message types and handlers.
-            var moviesAssembly = typeof(CloudScale.Movies.Messages.PingRequest).Assembly;
-            var nimbusAssembly = typeof(Bus).Assembly; // for stock interceptors
+            Assembly moviesAssembly = typeof (PingRequest).Assembly;
+            Assembly nimbusAssembly = typeof (Bus).Assembly; // for stock interceptors
 
             var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, moviesAssembly);
 
@@ -38,16 +36,16 @@ namespace CloudScale.Api.AutofacModules
             //Nimbus.Configuration.Settings.
 
             builder.Register(componentContext => new BusBuilder()
-                                 .Configure()
-                                 .WithConnectionString(connectionString)
-                                 .WithNames("CloudScale.Api", Environment.MachineName)
-                                 .WithTypesFrom(handlerTypesProvider)
-                                 .WithAutofacDefaults(componentContext)
-                                 .Build())
-                   .As<IBus>()
-                   .AutoActivate()
-                   .OnActivated(c => c.Instance.Start())
-                   .SingleInstance();
+                .Configure()
+                .WithConnectionString(connectionString)
+                .WithNames("CloudScale.Api", Environment.MachineName)
+                .WithTypesFrom(handlerTypesProvider)
+                .WithAutofacDefaults(componentContext)
+                .Build())
+                .As<IBus>()
+                .AutoActivate()
+                .OnActivated(c => c.Instance.Start())
+                .SingleInstance();
         }
     }
 }

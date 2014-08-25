@@ -1,10 +1,5 @@
-using Nimbus.MessageContracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CloudScale.Movies.Models;
+using Nimbus.MessageContracts;
 
 namespace CloudScale.Movies.Messages
 {
@@ -13,10 +8,5 @@ namespace CloudScale.Movies.Messages
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Data { get; set; }
-
-        public LookupMovieEvent()
-        {
-            
-        }
     }
 }

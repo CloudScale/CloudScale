@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace CloudScale.Api.Models
 {
@@ -16,6 +12,5 @@ namespace CloudScale.Api.Models
 
         [Required]
         public string ExternalAccessToken { get; set; }
-
     }
 }

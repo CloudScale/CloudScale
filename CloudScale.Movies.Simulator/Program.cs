@@ -1,28 +1,28 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Autofac;
 using CloudScale.Movies.Messages;
 using Nimbus;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudScale.Movies.Simulator
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                        .WriteTo.ColoredConsole()
-                        .CreateLogger();
+                .WriteTo.ColoredConsole()
+                .CreateLogger();
 
             var builder = new ContainerBuilder();
-            builder.RegisterAssemblyModules(typeof(Program).Assembly);
-            var container = builder.Build();
+            builder.RegisterAssemblyModules(typeof (Program).Assembly);
+            IContainer container = builder.Build();
 
-            IBus bus = container.Resolve<IBus>();
+            var bus = container.Resolve<IBus>();
 
             while (true)
             {
@@ -32,7 +32,8 @@ namespace CloudScale.Movies.Simulator
 
                 if (string.IsNullOrEmpty(readLine))
                 {
-                    Task<IEnumerable<PingResponse>> responses = bus.MulticastRequest<PingRequest, PingResponse>(new PingRequest(), TimeSpan.FromSeconds(5));
+                    Task<IEnumerable<PingResponse>> responses = bus.MulticastRequest(new PingRequest(),
+                        TimeSpan.FromSeconds(5));
                     responses.Wait();
 
                     foreach (PingResponse pingResponse in responses.Result)
@@ -45,12 +46,12 @@ namespace CloudScale.Movies.Simulator
                 if (readLine == "import")
                 {
                     string filename = @"C:\Jobs\CloudScale\MoviesForThomas.txt";
-                    if (System.IO.File.Exists(filename))
+                    if (File.Exists(filename))
                     {
-                        string[] lines = System.IO.File.ReadAllLines(filename);
+                        string[] lines = File.ReadAllLines(filename);
 
                         string[] headers = lines.First().Split('\t');
-                        List<string> people = new List<string>();
+                        var people = new List<string>();
                         foreach (string item in headers.Skip(6))
                         {
                             string name = item.Trim();
@@ -92,13 +93,14 @@ namespace CloudScale.Movies.Simulator
                                     if (!string.IsNullOrWhiteSpace(value))
                                     {
                                         string name = people[index++];
-                                        
+
                                         if (!string.IsNullOrWhiteSpace(name))
                                         {
                                             double score = 0;
                                             double.TryParse(value, out score);
-                                            
-                                            Log.Information("Register Score For {Movie} to {Person} for {Score}", movieName, name, score);
+
+                                            Log.Information("Register Score For {Movie} to {Person} for {Score}",
+                                                movieName, name, score);
 
                                             //bus.Publish<NewScoreEvent>(new NewScoreEvent(movieName, name, score));
                                         }

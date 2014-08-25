@@ -1,12 +1,5 @@
 using Autofac;
-using Nimbus;
-using Nimbus.Configuration;
-using Nimbus.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Nimbus.Logger.Serilog;
+using Microsoft.WindowsAzure;
 using TMDbLib.Client;
 
 namespace AutofacModules
@@ -17,7 +10,7 @@ namespace AutofacModules
         {
             base.Load(builder);
 
-            var apiKey = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("TMDBApiKey");
+            string apiKey = CloudConfigurationManager.GetSetting("TMDBApiKey");
 
             builder.RegisterType<TMDbClient>()
                 .AsSelf()

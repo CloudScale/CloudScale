@@ -1,8 +1,7 @@
+using System.Data.Entity.Migrations;
+
 namespace CloudScale.Movies.Data.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class MovieScores1 : DbMigration
     {
         public override void Up()
@@ -11,7 +10,7 @@ namespace CloudScale.Movies.Data.Migrations
             DropColumn("dbo.MovieScores", "MovieName");
             DropColumn("dbo.MovieScores", "PersonName");
         }
-        
+
         public override void Down()
         {
             AddColumn("dbo.MovieScores", "PersonName", c => c.String());

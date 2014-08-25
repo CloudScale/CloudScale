@@ -1,14 +1,13 @@
+using System;
+using System.Reflection;
 using Autofac;
+using CloudScale.Movies.Messages;
+using Microsoft.WindowsAzure;
 using Nimbus;
 using Nimbus.Configuration;
 using Nimbus.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Nimbus.Logger.Serilog;
-using CloudScale.Movies.DataService;
-using FluentScheduler;
+using Module = Autofac.Module;
 
 namespace AutofacModules
 {
@@ -18,30 +17,30 @@ namespace AutofacModules
         {
             base.Load(builder);
 
-            var connectionString = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
 
             builder.RegisterType<SerilogStaticLogger>()
-                   .AsImplementedInterfaces()
-                   .SingleInstance();
+                .AsImplementedInterfaces()
+                .SingleInstance();
 
             // This is how you tell Nimbus where to find all your message types and handlers.
-            var messagesAssembly = typeof(CloudScale.Movies.Messages.PingRequest).Assembly;
-            var nimbusAssembly = typeof(Bus).Assembly; // for stock interceptors
+            Assembly messagesAssembly = typeof (PingRequest).Assembly;
+            Assembly nimbusAssembly = typeof (Bus).Assembly; // for stock interceptors
 
             var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, messagesAssembly);
 
             builder.RegisterNimbus(handlerTypesProvider);
             builder.Register(componentContext => new BusBuilder()
-                                 .Configure()
-                                 .WithConnectionString(connectionString)
-                                 .WithNames("CloudScale.Movies.DataService", Environment.MachineName)
-                                 .WithTypesFrom(handlerTypesProvider)
-                                 .WithAutofacDefaults(componentContext)
-                                 .Build())
-                   .As<IBus>()
-                   .AutoActivate()
-                   .OnActivated(c => c.Instance.Start())
-                   .SingleInstance();
+                .Configure()
+                .WithConnectionString(connectionString)
+                .WithNames("CloudScale.Movies.DataService", Environment.MachineName)
+                .WithTypesFrom(handlerTypesProvider)
+                .WithAutofacDefaults(componentContext)
+                .Build())
+                .As<IBus>()
+                .AutoActivate()
+                .OnActivated(c => c.Instance.Start())
+                .SingleInstance();
         }
     }
 }

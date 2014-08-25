@@ -1,12 +1,7 @@
-using CloudScale.Api.Models;
-using CloudScale.Api.Repositories;
-using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
+using CloudScale.Api.Repositories;
 
 namespace CloudScale.Api.Controllers
 {
@@ -34,13 +29,12 @@ namespace CloudScale.Api.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Delete(string tokenId)
         {
-            var result = await repo.RemoveRefreshToken(tokenId);
+            bool result = await repo.RemoveRefreshToken(tokenId);
             if (result)
             {
                 return Ok();
             }
             return BadRequest("Token Id does not exist");
-
         }
 
         protected override void Dispose(bool disposing)

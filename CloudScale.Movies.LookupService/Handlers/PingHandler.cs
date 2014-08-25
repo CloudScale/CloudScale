@@ -1,11 +1,6 @@
-﻿using CloudScale.Movies.Messages;
-using Nimbus;
+﻿using System.Threading.Tasks;
+using CloudScale.Movies.Messages;
 using Nimbus.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudScale.Movies.LookupService.Handlers
 {
@@ -15,9 +10,9 @@ namespace CloudScale.Movies.LookupService.Handlers
         {
             return await Task.Run(() =>
             {
-                return new PingResponse()
+                return new PingResponse
                 {
-                    Details = this.GetType() + " : " + this.GetType().Assembly.GetName().Version.ToString()
+                    Details = GetType() + " : " + GetType().Assembly.GetName().Version
                 };
             });
         }

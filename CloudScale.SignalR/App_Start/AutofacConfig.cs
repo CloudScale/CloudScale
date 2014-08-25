@@ -12,9 +12,9 @@ namespace CloudScale.SignalR
             // Create the container builder.
             var builder = new ContainerBuilder();
 
-            builder.RegisterAssemblyModules(typeof(AutofacConfig).Assembly);
+            builder.RegisterAssemblyModules(typeof (AutofacConfig).Assembly);
 
-            var container = builder.Build();
+            IContainer container = builder.Build();
 
             // Create the depenedency resolver.
             var resolver = new AutofacDependencyResolver(container);

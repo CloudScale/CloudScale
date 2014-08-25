@@ -1,22 +1,14 @@
-using Nimbus;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using CloudScale.Movies.Messages;
 using System.Web.Http.Cors;
-using CloudScale.Movies.Models;
 using CloudScale.Movies.Data;
-using System.Data.Entity.SqlServer;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin;
-using System.Security.Claims;
-using CloudScale.Api.Filters;
-using System.Web.Http.ValueProviders;
-using System.Web.Http.Controllers;
+using CloudScale.Movies.Messages;
+using CloudScale.Movies.Models;
+using Nimbus;
 
 namespace CloudScale.Api.Controllers
 {
@@ -39,33 +31,34 @@ namespace CloudScale.Api.Controllers
 
         [Route("new")]
         [HttpPost]
-        public async Task<string> NewMovie([FromBody]string name)
+        public async Task<string> NewMovie([FromBody] string name)
         {
-            await bus.Publish<NewMovieEvent>(new NewMovieEvent(name));
+            await bus.Publish(new NewMovieEvent(name));
 
             return "New Movie '" + name + "' submitted for processing";
         }
 
         [Route("vote")]
         [HttpPost]
-        public async Task Vote([FromBody]MovieScore score)
+        public async Task Vote([FromBody] MovieScore score)
         {
-            Guid userId = (Guid)ActionContext.Request.Properties["UserId"]; 
+            var userId = (Guid) ActionContext.Request.Properties["UserId"];
 
-            await bus.Publish<NewScoreEvent>(new NewScoreEvent(score.MovieId.Value, userId, score.Score));
+            await bus.Publish(new NewScoreEvent(score.MovieId.Value, userId, score.Score));
         }
 
         private IEnumerable<Movie> GetRandomMovies()
         {
-            Random random = new Random(DateTimeOffset.Now.Millisecond);
+            var random = new Random(DateTimeOffset.Now.Millisecond);
 
-            List<Movie> movies = new List<Movie>();
+            var movies = new List<Movie>();
 
             int movieCount = db.Movies.Where(p => p.TMDBId != 0).Count();
             if (movieCount > 10)
             {
                 int randomSkip = random.Next(0, movieCount - 10);
-                movies.AddRange(db.Movies.Where(p => p.TMDBId != 0).OrderBy(p => p.OriginalTitle).Skip(randomSkip).Take(10).ToList());
+                movies.AddRange(
+                    db.Movies.Where(p => p.TMDBId != 0).OrderBy(p => p.OriginalTitle).Skip(randomSkip).Take(10).ToList());
             }
             else
             {
@@ -77,9 +70,13 @@ namespace CloudScale.Api.Controllers
 
         private IEnumerable<Movie> GetSearchedMovies(string searchTerm)
         {
-            List<Movie> movies = new List<Movie>();
+            var movies = new List<Movie>();
 
-            movies.AddRange(db.Movies.Where(p => p.OriginalTitle.Contains(searchTerm) || SqlFunctions.SoundCode(p.OriginalTitle) == SqlFunctions.SoundCode(searchTerm)).ToList());
+            movies.AddRange(
+                db.Movies.Where(
+                    p =>
+                        p.OriginalTitle.Contains(searchTerm) ||
+                        SqlFunctions.SoundCode(p.OriginalTitle) == SqlFunctions.SoundCode(searchTerm)).ToList());
 
             return movies.Take(10);
         }
@@ -102,8 +99,8 @@ namespace CloudScale.Api.Controllers
         [HttpGet]
         public async Task<MovieViewModel> GetRandomMovie()
         {
-            Guid userId = (Guid)ActionContext.Request.Properties["UserId"];
-            Random random = new Random(DateTimeOffset.Now.Millisecond);
+            var userId = (Guid) ActionContext.Request.Properties["UserId"];
+            var random = new Random(DateTimeOffset.Now.Millisecond);
 
             return await Task.Run(() =>
             {
@@ -114,8 +111,8 @@ namespace CloudScale.Api.Controllers
 
                 MovieScore movieScore = db.MovieScores.FirstOrDefault(p => p.MovieId == movie.Id && p.UserId == userId);
 
-                MovieViewModel viewModel = new MovieViewModel();
-                
+                var viewModel = new MovieViewModel();
+
                 viewModel.Id = movie.Id;
                 viewModel.Title = movie.OriginalTitle;
                 viewModel.Rating = movie.Rating;
@@ -123,7 +120,7 @@ namespace CloudScale.Api.Controllers
                 viewModel.BackdropPath = movie.BackdropPath;
 
                 if (movieScore != null)
-                    viewModel.UserRating = movieScore.Score; 
+                    viewModel.UserRating = movieScore.Score;
 
                 return viewModel;
             });

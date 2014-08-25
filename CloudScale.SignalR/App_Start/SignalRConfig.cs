@@ -1,6 +1,3 @@
-using Autofac;
-using Autofac.Integration.SignalR;
-using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Cors;
 using Owin;
 

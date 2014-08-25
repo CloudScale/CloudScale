@@ -1,13 +1,11 @@
+using System.Linq;
+using System.Threading.Tasks;
 using CloudScale.Movies.Data;
 using CloudScale.Movies.Messages;
+using CloudScale.Movies.Models;
 using Nimbus;
 using Nimbus.Handlers;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudScale.Movies.DataService.Handlers
 {
@@ -17,7 +15,7 @@ namespace CloudScale.Movies.DataService.Handlers
         private readonly IMoviesDataContext db;
 
         /// <summary>
-        /// Initializes a new instance of the NewMovieHandler class.
+        ///     Initializes a new instance of the NewMovieHandler class.
         /// </summary>
         public MovieScoreHandler(IBus bus, IMoviesDataContext db)
         {
@@ -29,11 +27,12 @@ namespace CloudScale.Movies.DataService.Handlers
         {
             Log.Information("{Type} New Score for {Movie}", GetType().FullName, busEvent.MovieId);
 
-            var movieScore = db.MovieScores.FirstOrDefault(p => p.MovieId == busEvent.MovieId && p.UserId == busEvent.UserId);
+            MovieScore movieScore =
+                db.MovieScores.FirstOrDefault(p => p.MovieId == busEvent.MovieId && p.UserId == busEvent.UserId);
 
             if (movieScore == null)
             {
-                movieScore = new Models.MovieScore();
+                movieScore = new MovieScore();
                 movieScore.MovieId = busEvent.MovieId;
                 movieScore.UserId = busEvent.UserId;
 

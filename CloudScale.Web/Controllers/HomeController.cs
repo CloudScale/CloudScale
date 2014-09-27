@@ -8,5 +8,10 @@ namespace CloudScale.Web.Controllers
         {
             return View();
         }
+
+	    public ActionResult New()
+	    {
+		    return View();
+	    }
     }
 }

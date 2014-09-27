@@ -1,13 +1,13 @@
 ﻿/// <reference path="../scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="../scripts/typings/jquery.pnotify/jquery.pnotify.d.ts" />
 /// <reference path="../scripts/typings/knockout/knockout.d.ts" />
 /// <reference path="../scripts/typings/bootstrap/bootstrap.d.ts" />
+/// <reference path="../app/models/movie.ts" />
 var CloudScale;
 (function (CloudScale) {
     var Vote = (function () {
         function Vote(movieId, score) {
-            this.MovieId = movieId;
-            this.Score = score;
+            this.movieId = movieId;
+            this.score = score;
         }
         return Vote;
     })();
@@ -23,25 +23,10 @@ var CloudScale;
     })();
     CloudScale.RegisterUser = RegisterUser;
 
-    var Movie = (function () {
-        function Movie(id, name, img, rating) {
-            this.Id = ko.observable(null);
-            this.Name = ko.observable(null);
-            this.Poster = ko.observable(null);
-            this.Rating = ko.observable(null);
-            this.Id(id);
-            this.Name(name);
-            this.Poster(img);
-            this.Rating(rating);
-        }
-        return Movie;
-    })();
-    CloudScale.Movie = Movie;
-
     var LoginUser = (function () {
         function LoginUser(userName, password) {
-            this.grant_type = 'password';
-            this.client_id = 'CloudScale';
+            this.grantType = 'password';
+            this.clientId = 'CloudScale';
             this.userName = userName;
             this.password = password;
         }
@@ -54,40 +39,37 @@ var CloudScale;
 (function (CloudScale) {
     var MainViewModel = (function () {
         function MainViewModel(baseApiUrl) {
-            this.Movies = ko.observableArray([]);
-            this.CurrentMovie = ko.observable(null);
-            this.AddString = ko.observable(null);
-            this.SearchString = ko.observable(null);
-            this.UserName = ko.observable(null);
-            this.Password = ko.observable(null);
-            this.ConfirmPassword = ko.observable(null);
-            this.IsLoading = ko.observable(false);
-            this.IsAuth = ko.observable(false);
-            this.ShowLogin = ko.observable(false);
-            this.ShowRegister = ko.observable(false);
+            this.movies = ko.observableArray([]);
+            this.currentMovie = ko.observable(null);
+            this.addString = ko.observable(null);
+            this.searchString = ko.observable(null);
+            this.userName = ko.observable(null);
+            this.password = ko.observable(null);
+            this.confirmPassword = ko.observable(null);
+            this.isLoading = ko.observable(false);
+            this.isAuth = ko.observable(false);
+            this.showLogin = ko.observable(false);
+            this.showRegister = ko.observable(false);
             this.baseUrl = baseApiUrl;
 
             var self = this;
 
-            self.IsAuth(false);
+            self.isAuth(false);
 
             var token = JSON.parse(localStorage.getItem('token'));
 
             if (token != null) {
-                var access_token = token.access_token;
-                var token_type = token.token_type;
-
-                this.IsAuth(true);
+                this.isAuth(true);
             }
         }
-        MainViewModel.prototype.GetRandomMovie = function () {
+        MainViewModel.prototype.getRandomMovie = function () {
             var self = this;
 
             var token = JSON.parse(localStorage.getItem('token'));
             if (token == null)
                 return;
 
-            self.IsLoading(true);
+            self.isLoading(true);
 
             $.ajax({
                 url: self.baseUrl + '/movies/random',
@@ -98,173 +80,173 @@ var CloudScale;
                     } else {
                         var imgUrl = "http://image.tmdb.org/t/p/w154";
 
-                        self.CurrentMovie(new CloudScale.Movie(m.id, m.title, imgUrl + m.posterPath, m.userRating));
+                        self.currentMovie(new CloudScale.Movie(m.id, m.title, imgUrl + m.posterPath, m.userRating));
                     }
 
-                    self.IsLoading(false);
+                    self.isLoading(false);
                 },
                 error: function (response) {
-                    new PNotify({ title: 'error getting random movie' });
+                    console.log(response);
+                    console.log({ title: 'error getting random movie' });
 
-                    self.IsLoading(false);
+                    self.isLoading(false);
                 },
                 beforeSend: function (xhr) {
-                    var token = JSON.parse(localStorage.getItem('token'));
+                    var authToken = JSON.parse(localStorage.getItem('token'));
 
-                    if (token != null) {
-                        var access_token = token.access_token;
-                        var token_type = token.token_type;
+                    if (authToken != null) {
+                        var accessToken = authToken.access_token;
 
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
                     }
                 }
             });
         };
 
-        MainViewModel.prototype.Vote = function (value, event) {
+        MainViewModel.prototype.vote = function (value, event) {
             var self = this;
 
             var vote = event.target.innerText;
 
-            if (self.CurrentMovie() === null)
+            if (self.currentMovie() === null)
                 return;
 
             $.ajax({
                 url: self.baseUrl + '/movies/vote',
                 type: 'post',
-                data: new CloudScale.Vote(self.CurrentMovie().Id(), vote),
-                success: function (m) {
-                    self.GetRandomMovie();
-                    self.IsLoading(false);
+                data: new CloudScale.Vote(self.currentMovie().id(), vote),
+                success: function () {
+                    self.getRandomMovie();
+                    self.isLoading(false);
                 },
-                error: function (allData) {
-                    self.IsLoading(false);
+                error: function () {
+                    self.isLoading(false);
                 },
                 beforeSend: function (xhr) {
                     var token = JSON.parse(localStorage.getItem('token'));
 
                     if (token != null) {
-                        var access_token = token.access_token;
-                        var token_type = token.token_type;
+                        var accessToken = token.access_token;
 
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
                     }
                 }
             });
         };
 
-        MainViewModel.prototype.AddMovie = function () {
+        MainViewModel.prototype.addMovie = function () {
             var self = this;
 
-            self.IsLoading(true);
+            self.isLoading(true);
 
             $.ajax({
                 url: self.baseUrl + '/movies/new',
                 type: 'post',
-                data: { '': this.AddString() },
-                success: function (allData) {
-                    self.AddString(null);
-                    self.IsLoading(false);
+                data: { '': this.addString() },
+                success: function () {
+                    self.addString(null);
+                    self.isLoading(false);
                 },
-                error: function (allData) {
-                    self.AddString(null);
-                    self.IsLoading(false);
+                error: function () {
+                    self.addString(null);
+                    self.isLoading(false);
                 },
                 beforeSend: function (xhr) {
                     var token = JSON.parse(localStorage.getItem('token'));
 
                     if (token != null) {
-                        var access_token = token.access_token;
-                        var token_type = token.token_type;
+                        var accessToken = token.access_token;
 
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
                     }
                 }
             });
         };
 
-        MainViewModel.prototype.DoLogin = function () {
+        MainViewModel.prototype.doLogin = function () {
             var self = this;
 
-            self.ShowLogin(true);
-            self.ShowRegister(false);
+            self.showLogin(true);
+            self.showRegister(false);
         };
 
-        MainViewModel.prototype.Login = function () {
+        MainViewModel.prototype.login = function () {
             var self = this;
 
-            self.IsLoading(true);
+            self.isLoading(true);
 
             $.ajax({
                 url: self.baseUrl + '/token',
                 type: 'post',
-                data: new CloudScale.LoginUser(self.UserName(), self.Password()),
+                data: new CloudScale.LoginUser(self.userName(), self.password()),
                 success: function (response) {
                     localStorage.setItem('token', JSON.stringify(response));
 
-                    self.IsAuth(true);
-                    self.UserName(null);
-                    self.Password(null);
-                    self.IsLoading(false);
+                    self.isAuth(true);
+                    self.userName(null);
+                    self.password(null);
+                    self.isLoading(false);
 
-                    self.GetRandomMovie();
+                    self.getRandomMovie();
                 },
                 error: function (response) {
-                    new PNotify({ title: 'error logging in.', text: 'please seek help.' });
+                    console.log(response);
+                    console.log({ title: 'error logging in.', text: 'please seek help.' });
 
-                    self.IsAuth(false);
-                    self.IsLoading(false);
+                    self.isAuth(false);
+                    self.isLoading(false);
                 }
             });
 
-            self.ShowLogin(false);
+            self.showLogin(false);
         };
 
-        MainViewModel.prototype.Logout = function () {
+        MainViewModel.prototype.logout = function () {
             var self = this;
 
             localStorage.setItem('token', null);
 
-            self.IsAuth(false);
+            self.isAuth(false);
         };
 
-        MainViewModel.prototype.DoRegister = function () {
+        MainViewModel.prototype.doRegister = function () {
             var self = this;
 
-            self.ShowRegister(true);
-            self.ShowLogin(false);
+            self.showRegister(true);
+            self.showLogin(false);
         };
 
-        MainViewModel.prototype.Register = function () {
+        MainViewModel.prototype.register = function () {
             var self = this;
 
-            self.IsLoading(true);
+            self.isLoading(true);
 
             $.ajax({
                 url: self.baseUrl + '/account/register',
                 type: 'post',
-                data: new CloudScale.RegisterUser(self.UserName(), self.Password(), self.ConfirmPassword()),
+                data: new CloudScale.RegisterUser(self.userName(), self.password(), self.confirmPassword()),
                 success: function (response) {
-                    new PNotify({ title: 'registration successful', text: 'please log in.' });
-                    self.IsLoading(false);
+                    console.log(response);
+                    console.log({ title: 'registration successful', text: 'please log in.' });
+                    this.isLoading(false);
                 },
                 error: function (response) {
                     var error = response.responseJSON;
                     console.log(error);
-                    new PNotify({ title: 'registration failed', text: error });
+                    console.log({ title: 'registration failed', text: error });
 
-                    self.IsLoading(false);
+                    self.isLoading(false);
                 }
             });
 
-            self.ShowRegister(false);
+            self.showRegister(false);
         };
 
-        MainViewModel.prototype.SearchMovie = function () {
+        MainViewModel.prototype.searchMovie = function () {
             var self = this;
 
-            self.IsLoading(true);
-            var searchUri = self.baseUrl + '/movies/search/' + encodeURIComponent(this.SearchString());
+            self.isLoading(true);
+            var searchUri = self.baseUrl + '/movies/search/' + encodeURIComponent(this.searchString());
 
             $.ajax({
                 url: searchUri,
@@ -276,23 +258,22 @@ var CloudScale;
                         return new CloudScale.Movie(item.id, item.originalTitle, url + item.posterPath, 0);
                     });
 
-                    self.Movies(mappedMovies);
+                    self.movies(mappedMovies);
 
-                    self.SearchString(null);
-                    self.IsLoading(false);
+                    self.searchString(null);
+                    self.isLoading(false);
                 },
-                error: function (vm) {
-                    self.SearchString(null);
-                    self.IsLoading(false);
+                error: function () {
+                    self.searchString(null);
+                    self.isLoading(false);
                 },
                 beforeSend: function (xhr) {
                     var token = JSON.parse(localStorage.getItem('token'));
 
                     if (token != null) {
-                        var access_token = token.access_token;
-                        var token_type = token.token_type;
+                        var accessToken = token.access_token;
 
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
                     }
                 }
             });

@@ -11,36 +11,36 @@ using Module = Autofac.Module;
 
 namespace AutofacModules
 {
-    public class BusModule : Module
-    {
-        protected override void Load(ContainerBuilder builder)
-        {
-            base.Load(builder);
+	public class BusModule : Module
+	{
+		protected override void Load(ContainerBuilder builder)
+		{
+			base.Load(builder);
 
-            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+			string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
 
-            builder.RegisterType<SerilogStaticLogger>()
-                .AsImplementedInterfaces()
-                .SingleInstance();
+			builder.RegisterType<SerilogStaticLogger>()
+				.AsImplementedInterfaces()
+				.SingleInstance();
 
-            // This is how you tell Nimbus where to find all your message types and handlers.
-            Assembly messagesAssembly = typeof (PingRequest).Assembly;
-            Assembly nimbusAssembly = typeof (Bus).Assembly; // for stock interceptors
+			// This is how you tell Nimbus where to find all your message types and handlers.
+			Assembly messagesAssembly = typeof (PingRequest).Assembly;
+			Assembly nimbusAssembly = typeof (Bus).Assembly; // for stock interceptors
 
-            var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, messagesAssembly);
+			var handlerTypesProvider = new AssemblyScanningTypeProvider(ThisAssembly, nimbusAssembly, messagesAssembly);
 
-            builder.RegisterNimbus(handlerTypesProvider);
-            builder.Register(componentContext => new BusBuilder()
-                .Configure()
-                .WithConnectionString(connectionString)
-                .WithNames("CloudScale.Movies.DataService", Environment.MachineName)
-                .WithTypesFrom(handlerTypesProvider)
-                .WithAutofacDefaults(componentContext)
-                .Build())
-                .As<IBus>()
-                .AutoActivate()
-                .OnActivated(c => c.Instance.Start())
-                .SingleInstance();
-        }
-    }
+			builder.RegisterNimbus(handlerTypesProvider);
+			builder.Register(componentContext => new BusBuilder()
+				.Configure()
+				.WithConnectionString(connectionString)
+				.WithNames("CloudScale.Movies.DataService", Environment.MachineName)
+				.WithTypesFrom(handlerTypesProvider)
+				.WithAutofacDefaults(componentContext)
+				.Build())
+				.As<IBus>()
+				.AutoActivate()
+				.OnActivated(c => c.Instance.Start())
+				.SingleInstance();
+		}
+	}
 }

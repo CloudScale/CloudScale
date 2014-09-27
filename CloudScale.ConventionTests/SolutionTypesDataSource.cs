@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Reflection;
-using CloudScale.Movies.DataService;
 using CloudScale.Web;
 using NUnit.Framework;
 
@@ -19,8 +18,8 @@ namespace CloudScale.ConventionTests
                     typeof (Startup).Assembly,
                     typeof (Api.Startup).Assembly,
                     typeof (SignalR.Startup).Assembly,
-                    typeof (WorkerRole).Assembly,
-                    typeof (Movies.LookupService.WorkerRole).Assembly
+                    typeof (Movies.DataService.Program).Assembly,
+                    typeof (Movies.LookupService.Program).Assembly
                 };
 
                 foreach (Type type in assemblies.SelectMany(p => p.GetTypes()))

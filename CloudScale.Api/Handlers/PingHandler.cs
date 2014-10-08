@@ -6,15 +6,13 @@ namespace CloudScale.Api.Handlers
 {
 	public class PingHandler : IHandleMulticastRequest<PingRequest, PingResponse>
 	{
-        public Task<PingResponse> Handle(PingRequest request)
-        {
-            return Task.Run(() =>
-            {
-                return new PingResponse
-                {
-                    Details = GetType() + " : " + GetType().Assembly.GetName().Version
-                };
-            });
-        }
-    }
+		public Task<PingResponse> Handle(PingRequest request)
+		{
+			return Task.Run(() => new PingResponse
+			{
+				Details = GetType() + " : " + GetType().Assembly.GetName().Version,
+				HealthCheck = Metrics.HealthChecks.GetStatus()
+			});
+		}
+	}
 }

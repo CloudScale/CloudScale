@@ -19,12 +19,10 @@ namespace CloudScale.SignalR.Handlers
         {
             movieHub.Clients.All.Ping();
 
-            return await Task.Run(() =>
+            return await Task.Run(() => new PingResponse
             {
-                return new PingResponse
-                {
-                    Details = GetType() + " : " + GetType().Assembly.GetName().Version
-                };
+	            Details = GetType() + " : " + GetType().Assembly.GetName().Version,
+	            HealthCheck = Metrics.HealthChecks.GetStatus()
             });
         }
     }

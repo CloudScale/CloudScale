@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMoviesDataContext.cs" />
-    <Compile Include="IUserImplementer.cs" />
     <Compile Include="Migrations\201408081323155_Initial.cs" />
     <Compile Include="Migrations\201408081323155_Initial.Designer.cs">
       <DependentUpon>201408081323155_Initial.cs</DependentUpon>

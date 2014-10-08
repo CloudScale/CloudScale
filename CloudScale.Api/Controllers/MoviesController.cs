@@ -53,7 +53,7 @@ namespace CloudScale.Api.Controllers
 
             var movies = new List<Movie>();
 
-            int movieCount = db.Movies.Where(p => p.TMDBId != 0).Count();
+            int movieCount = db.Movies.Count(p => p.TMDBId != 0);
             if (movieCount > 10)
             {
                 int randomSkip = random.Next(0, movieCount - 10);
@@ -85,14 +85,14 @@ namespace CloudScale.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<Movie>> GetMovies()
         {
-            return await Task.Run(() => { return GetRandomMovies(); });
+            return await Task.Run(() => GetRandomMovies());
         }
 
         [Route("search/{searchString}")]
         [HttpGet]
         public async Task<IEnumerable<Movie>> SearchMovies(string searchString)
         {
-            return await Task.Run(() => { return GetSearchedMovies(searchString); });
+            return await Task.Run(() => GetSearchedMovies(searchString));
         }
 
         [Route("random")]

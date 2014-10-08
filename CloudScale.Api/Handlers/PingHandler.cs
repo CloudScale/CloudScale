@@ -4,8 +4,8 @@ using Nimbus.Handlers;
 
 namespace CloudScale.Api.Handlers
 {
-    public class PingHandler : IHandleRequest<PingRequest, PingResponse>
-    {
+	public class PingHandler : IHandleMulticastRequest<PingRequest, PingResponse>
+	{
         public Task<PingResponse> Handle(PingRequest request)
         {
             return Task.Run(() =>

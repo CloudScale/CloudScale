@@ -17,7 +17,7 @@ namespace CloudScale.Api.AutofacModules
         {
             base.Load(builder);
 
-            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            string connectionString = CloudConfigurationManager.GetSetting("ServiceBusConnectionString");
 
             // You'll want a logger. There's a ConsoleLogger and a NullLogger if you really don't care. You can roll your
             // own by implementing the ILogger interface if you want to hook it to an existing logging implementation.

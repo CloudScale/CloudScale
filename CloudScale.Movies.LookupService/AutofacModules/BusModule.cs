@@ -17,7 +17,7 @@ namespace AutofacModules
         {
             base.Load(builder);
 
-            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            string connectionString = CloudConfigurationManager.GetSetting("ServiceBusConnectionString");
 
             builder.RegisterType<SerilogStaticLogger>()
                 .AsImplementedInterfaces()

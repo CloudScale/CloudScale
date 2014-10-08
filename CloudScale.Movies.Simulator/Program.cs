@@ -32,7 +32,7 @@ namespace CloudScale.Movies.Simulator
 
                 if (string.IsNullOrEmpty(readLine))
                 {
-                    Task<IEnumerable<PingResponse>> responses = bus.MulticastRequest(new PingRequest(),
+                    Task<IEnumerable<PingResponse>> responses = bus.MulticastRequest<PingRequest, PingResponse>(new PingRequest(),
                         TimeSpan.FromSeconds(5));
                     responses.Wait();
 

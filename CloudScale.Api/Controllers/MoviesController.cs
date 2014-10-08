@@ -97,6 +97,7 @@ namespace CloudScale.Api.Controllers
 
         [Route("random")]
         [HttpGet]
+		[AllowAnonymous]
         public async Task<MovieViewModel> GetRandomMovie()
         {
             var userId = (Guid) ActionContext.Request.Properties["UserId"];
@@ -104,7 +105,7 @@ namespace CloudScale.Api.Controllers
 
             return await Task.Run(() =>
             {
-                IEnumerable<Movie> list = GetRandomMovies();
+                List<Movie> list = GetRandomMovies().ToList();
 
                 int skip = random.Next(list.Count());
                 Movie movie = list.Skip(skip).FirstOrDefault();
@@ -113,13 +114,16 @@ namespace CloudScale.Api.Controllers
 
                 var viewModel = new MovieViewModel();
 
-                viewModel.Id = movie.Id;
-                viewModel.Title = movie.OriginalTitle;
-                viewModel.Rating = movie.Rating;
-                viewModel.PosterPath = movie.PosterPath;
-                viewModel.BackdropPath = movie.BackdropPath;
+	            if (movie != null)
+	            {
+		            viewModel.Id = movie.Id;
+		            viewModel.Title = movie.OriginalTitle;
+		            viewModel.Rating = movie.Rating;
+		            viewModel.PosterPath = movie.PosterPath;
+		            viewModel.BackdropPath = movie.BackdropPath;
+	            }
 
-                if (movieScore != null)
+	            if (movieScore != null)
                     viewModel.UserRating = movieScore.Score;
 
                 return viewModel;

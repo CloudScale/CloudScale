@@ -6,8 +6,8 @@ using Nimbus.Handlers;
 
 namespace CloudScale.SignalR.Handlers
 {
-    public class PingHandler : IHandleRequest<PingRequest, PingResponse>
-    {
+	public class PingHandler : IHandleMulticastRequest<PingRequest, PingResponse>
+	{
         private readonly IHubContext movieHub;
 
         public PingHandler()

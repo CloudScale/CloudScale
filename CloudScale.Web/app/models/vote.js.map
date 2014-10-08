@@ -1,0 +1,1 @@
+{"version":3,"file":"vote.js","sourceRoot":"","sources":["vote.ts"],"names":["CloudScale","CloudScale.Vote","CloudScale.Vote.constructor"],"mappings":"AAAA,IAAO,UAAU;AAUhB,CAVD,UAAO,UAAU;IAChBA;QAICC,cAAYA,OAAeA,EAAEA,KAAaA;YACzCC,IAAIA,CAACA,OAAOA,GAAGA,OAAOA;YACtBA,IAAIA,CAACA,KAAKA,GAAGA,KAAKA;QACnBA,CAACA;QACFD,YAACA;IAADA,CAACA,IAAAD;IARDA,uBAQCA;AACFA,CAACA,mCAAA"}

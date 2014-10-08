@@ -2,53 +2,9 @@
 /// <reference path="../scripts/typings/knockout/knockout.d.ts" />
 /// <reference path="../scripts/typings/bootstrap/bootstrap.d.ts" />
 /// <reference path="../app/models/movie.ts" />
-module CloudScale
-{
-	export class Vote
-	{
-		movieId: string;
-		score: number;
-
-		constructor(movieId: string, score: number)
-		{
-			this.movieId = movieId;
-			this.score = score;
-		}
-	}
-
-	export class RegisterUser
-	{
-		userName: string;
-		password: string;
-		confirmPassword: string;
-
-		constructor(userName: string, password: string, confirm: string)
-		{
-			this.userName = userName;
-			this.password = password;
-			this.confirmPassword = confirm;
-		}
-	}
-
-	export class LoginUser
-	{
-		grantType: string;
-		clientId: string;
-		userName: string;
-		password: string;
-
-		constructor(userName: string, password: string)
-		{
-			this.grantType = 'password';
-			this.clientId = 'CloudScale';
-			this.userName = userName;
-			this.password = password;
-		}
-	}
-}
-
+/*
 module CloudScale {
-	export class MainViewModel {
+	export class OldMainViewModel {
 		public movies: KnockoutObservableArray<Movie> = ko.observableArray([]);
 
 		public currentMovie: KnockoutObservable<Movie> = ko.observable<Movie>(null);
@@ -82,55 +38,6 @@ module CloudScale {
 			{
 				this.isAuth(true);
 			}
-		}
-
-		public getRandomMovie()
-		{
-			var self = this;
-
-			var token = JSON.parse(localStorage.getItem('token'));
-			if (token == null)
-				return;
-
-			self.isLoading(true);
-
-			$.ajax({
-				url: self.baseUrl + '/movies/random',
-				type: 'get',
-				contentType: 'application/json',
-				success: function (m)
-				{
-					if (m == null)
-					{
-
-					} else
-					{
-						var imgUrl = "http://image.tmdb.org/t/p/w154";
-
-						self.currentMovie(new Movie(m.id, m.title, imgUrl + m.posterPath, m.userRating));
-					}
-
-					self.isLoading(false);
-				},
-				error: function (response)
-				{
-					console.log(response);
-					console.log({ title: 'error getting random movie' });
-
-					self.isLoading(false);
-				},
-				beforeSend: function (xhr)
-				{
-					var authToken = JSON.parse(localStorage.getItem('token'));
-
-					if (authToken != null)
-					{
-						var accessToken = authToken.access_token;
-
-						xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-					}
-				}
-			});
 		}
 
 		public vote(value, event)
@@ -331,3 +238,4 @@ module CloudScale {
 
 	}
 }
+*/

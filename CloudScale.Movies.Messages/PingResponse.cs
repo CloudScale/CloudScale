@@ -2,7 +2,7 @@
 
 namespace CloudScale.Movies.Messages
 {
-    public class PingResponse : IBusResponse
+    public class PingResponse : IBusMulticastResponse
     {
         public string Details { get; set; }
     }

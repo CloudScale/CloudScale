@@ -1,49 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using CloudScale.Movies.Messages;
+using Metrics;
+using Metrics.Core;
+using Metrics.Reporters;
+using Metrics.Reports;
 using Nimbus;
 using Serilog;
 
 namespace CloudScale.Movies.Simulator
 {
-    internal class Program
-    {
-        private static void Main(string[] args)
-        {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.ColoredConsole()
-                .CreateLogger();
+	internal class Program
+	{
+		private static readonly Counter counter = Metric.Counter("test_counter", Unit.Calls);
 
-            var builder = new ContainerBuilder();
-            builder.RegisterAssemblyModules(typeof (Program).Assembly);
-            IContainer container = builder.Build();
+		private static void Main(string[] args)
+		{
+			Log.Logger = new LoggerConfiguration()
+				.WriteTo.ColoredConsole()
+				.CreateLogger();
 
-            var bus = container.Resolve<IBus>();
+			Metric.Config
+				.WithReporting(p =>
+				{
+					p.WithReporter("Cool", () => new StringReporter(), TimeSpan.FromSeconds(3));
+					p.WithConsoleReport(TimeSpan.FromSeconds(5));
+				});
 
-            while (true)
-            {
-                Console.WriteLine("Hit Enter to send Ping");
+			var builder = new ContainerBuilder();
+			builder.RegisterAssemblyModules(typeof(Program).Assembly);
+			IContainer container = builder.Build();
 
-                string readLine = Console.ReadLine();
+			var bus = container.Resolve<IBus>();
 
-                if (string.IsNullOrEmpty(readLine))
-                {
-                    Task<IEnumerable<PingResponse>> responses = bus.MulticastRequest<PingRequest, PingResponse>(new PingRequest(),
-                        TimeSpan.FromSeconds(5));
-                    responses.Wait();
+			while (true)
+			{
+				Console.WriteLine("p - ping");
+				Console.WriteLine("h - healthcheck");
+				Console.WriteLine("q - quit");
+				Console.WriteLine();
+				Console.Write(":> ");
 
-                    foreach (PingResponse pingResponse in responses.Result)
-                    {
-                        Log.Information("Received Response: {From}", pingResponse.Details);
-                    }
+				string readLine = Console.ReadLine();
 
-                    Console.WriteLine("...");
-                }
-            }
-        }
-    }
+				counter.Increment();
+
+				if (readLine.Trim().Equals("p", StringComparison.InvariantCultureIgnoreCase))
+				{
+					Task<IEnumerable<PingResponse>> responses = bus.MulticastRequest(new PingRequest(),
+						TimeSpan.FromSeconds(5));
+					responses.Wait();
+
+					foreach (PingResponse pingResponse in responses.Result)
+					{
+						Log.Information("Received Response: {From}", pingResponse.Details);
+					}
+
+					Console.WriteLine("...");
+				}
+				else if (readLine.Trim().Equals("h", StringComparison.InvariantCultureIgnoreCase))
+				{
+					Log.Information("Metrics = {@Metrics}", HealthChecks.GetStatus());
+				}
+				else if (readLine.Trim().Equals("q", StringComparison.InvariantCultureIgnoreCase))
+				{
+					Environment.Exit(0);
+				}
+			}
+		}
+	}
 }

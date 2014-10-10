@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.Web", "CloudScale.Web\CloudScale.Web.csproj", "{1BC6F853-ED36-45A0-A703-FB6CEC29E093}"
 EndProject
@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudScale.Movies.LookupSer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".automation", ".automation", "{3C9B10ED-6AE2-415A-8FDE-F011B7BC9E29}"
 	ProjectSection(SolutionItems) = preProject
+		Add-HostNames.ps1 = Add-HostNames.ps1
+		Add-IISConfiguration.ps1 = Add-IISConfiguration.ps1
 		install.ps1 = install.ps1
 	EndProjectSection
 EndProject

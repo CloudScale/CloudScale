@@ -35,9 +35,8 @@
     <Reference Include="Metrics">
       <HintPath>..\packages\Metrics.NET.0.2.4\lib\net45\Metrics.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.MessageContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nimbus.MessageContracts.1.4.1\lib\net45\Nimbus.MessageContracts.dll</HintPath>
+    <Reference Include="Nimbus.MessageContracts">
+      <HintPath>..\packages\Nimbus.MessageContracts.1.4.0.50\lib\net45\Nimbus.MessageContracts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

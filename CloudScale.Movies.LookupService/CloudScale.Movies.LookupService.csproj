@@ -77,25 +77,22 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nimbus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nimbus.1.4.1\lib\net45\Nimbus.dll</HintPath>
+    <Reference Include="Nimbus">
+      <HintPath>..\packages\Nimbus.1.4.0.50\lib\net45\Nimbus.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.Autofac, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nimbus.Autofac.1.4.1\lib\net45\Nimbus.Autofac.dll</HintPath>
+    <Reference Include="Nimbus.Autofac">
+      <HintPath>..\packages\Nimbus.Autofac.1.4.0.50\lib\net45\Nimbus.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.InfrastructureContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nimbus.InfrastructureContracts.1.4.1\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
+    <Reference Include="Nimbus.InfrastructureContracts">
+      <HintPath>..\packages\Nimbus.InfrastructureContracts.1.4.0.50\lib\net45\Nimbus.InfrastructureContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Nimbus.Logger.Serilog, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nimbus.Logger.Serilog.1.4.1\lib\net45\Nimbus.Logger.Serilog.dll</HintPath>
+    <Reference Include="Nimbus.Logger.Serilog">
+      <HintPath>..\packages\Nimbus.Logger.Serilog.1.4.0.50\lib\net45\Nimbus.Logger.Serilog.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Nimbus.MessageContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nimbus.MessageContracts.1.4.1\lib\net45\Nimbus.MessageContracts.dll</HintPath>
+    <Reference Include="Nimbus.MessageContracts">
+      <HintPath>..\packages\Nimbus.MessageContracts.1.4.0.50\lib\net45\Nimbus.MessageContracts.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>

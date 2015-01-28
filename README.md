@@ -3,3 +3,5 @@ CloudScale Demo [![Build status](https://ci.appveyor.com/api/projects/status/9ri
 ===============
 
 https://github.com/CloudScale/CloudScale/wiki
+
+Testing git tag process
